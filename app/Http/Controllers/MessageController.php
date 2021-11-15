@@ -29,7 +29,7 @@ class MessageController extends Controller
     ]);
     $message = Message::create($validate);
 
-    return response()->json([
+    return response()->json ([
             'message' => $message,
         ], 201);
     }
