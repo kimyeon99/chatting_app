@@ -7,13 +7,14 @@
         <div v-if="chatWith" class="w-4/5 flex flex-col" style="height: 600px;">
             <chat-area
                 :chat-id="chatWith"
+                :messages="messages"
             ></chat-area>
             <div class="flex-initial">
                 <input 
-                class="border-r-2 border-solid rounded border-gray-600 w-full p-3" 
-                type="text"
-                v-model="text"
-                @keyup.enter="submit"
+                    class="border-r-2 border-solid rounded border-gray-600 w-full p-3" 
+                    type="text"
+                    v-model="text"
+                    @keyup.enter="submit"
                 />
             </div>
         </div>
@@ -26,55 +27,61 @@
 </template>
 
 <script>
-    import ChatUserList from './ChatUserList.vue'
-    import ChatArea from './ChatArea.vue'
+   import ChatUserList from './ChatUserList';
+    import ChatArea from './ChatArea';
     export default {
         props: {
             currentUser: {
                 type: Number,
-                require: true,
+                required: true
             }
         },
-        components:{
-            ChatUserList, ChatArea
+        components: {
+            ChatUserList,
+            ChatArea
         },
-        
         data() {
             return {
                 chatWith: null,
-                text: ''
+                text: '',
+                messages: []
             }
         },
-
         mounted() {
             console.log('Component mounted.')
         },
-
         methods: {
-            updateChatWith(value){
+            updateChatWith(value) {
                 this.chatWith = value;
-                this.getMessage();
+                this.getMessages();
             },
 
-            getMessage(){
-                axios.get('/api/message', {
+            getMessages() {
+                axios.get('/api/messages', {
                     params: {
                         to: this.chatWith,
                         from: this.currentUser
                     }
                 }).then(res => {
                     console.log(res);
-                }).catch()
+                    this.messages = res.data.messages;
+                });
             },
 
-            submit(){
-                if(this.text){
+            submit() {
+                if (this.text) {
                     axios.post('/api/messages', {
-                     text: this.text,
-                     to: this.chatWith,
-                     from: this.currentUser
-                 });
-                }   
+                        text: this.text,
+                        to: this.chatWith,
+                        from: this.currentUser
+                    }).then(res => {
+                        //push: messages 끝에 추가
+                        this.messages.push(res.data.message);
+                    }).catch(error => {
+                    console.log(error)
+                });
+                }
+                this.text = '';
             }
         }
     }

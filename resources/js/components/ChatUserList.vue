@@ -12,12 +12,7 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                users: []
-            }
-        },
+        export default {
         props: {
             currentUser: {
                 type: Number,
@@ -31,6 +26,11 @@
                 });
             }
         },
+        data() {
+            return {
+                users: []
+            }
+        },
         created() {
             axios.get('/api/users').then(res => {
                 this.users = res.data.users;
@@ -39,11 +39,9 @@
             });
         },
         methods: {
-            updateChatWith(id){
-                this.$emit('updatedChatWith', id);
+            updateChatWith(userId) {
+                this.$emit('updatedChatWith', userId);
             }
         }
-
-        
     }
 </script>

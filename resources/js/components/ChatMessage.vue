@@ -1,10 +1,10 @@
 <template>
     <div>
         <div>
-            Name Date
+            <strong> {{ message.from.name }} {{ message.created_at }} </strong>
         </div>
         <div>
-            Message
+            {{ message.text }}
         </div>
     </div>
     
@@ -12,7 +12,13 @@
 
 <script>
 export default {
+    props: {
+        message: {
+            type: Object,
+            required: true
 
+        }
+    }
 }
 </script>
 

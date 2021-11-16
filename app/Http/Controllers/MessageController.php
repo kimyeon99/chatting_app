@@ -8,16 +8,18 @@ use Illuminate\Http\Request;
 class MessageController extends Controller
 {
     public function index(){
-        Message::where(function($query){
+        $messages = Message::where(function($query){
             $query->where('from', request('from'));
             $query->where('to', request('to'));
         })->orWhere(function($query){
-            $query->where('from', request('from'));
-            $query->where('to', request('to'));
-        })->latest()->get();
+            $query->where('from', request('to'));
+            $query->where('to', request('from'));
+        })->get();
 
-        return response()->json([
-            'message' => $messages,
+        return response()->json ([
+            // load: from 이름과 to 이름 가져온다.
+            // with가 아니라 load인 점 주의
+            'messages' => $messages->load('from', 'to')
         ], 200);
     }
 
@@ -30,7 +32,7 @@ class MessageController extends Controller
     $message = Message::create($validate);
 
     return response()->json ([
-            'message' => $message,
+            'message' => $message->load('from')
         ], 201);
     }
 

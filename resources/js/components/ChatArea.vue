@@ -1,24 +1,29 @@
 <template>
-    <div class="flex-1">Char Area
-        <p>Chatting with user {{chatId}}</p>
+    <div class="flex-1">
+        <ChatMessage
+        v-for="message in messages" 
+        :key="message.id" :message="message"></ChatMessage>
         
-        <chat-message></chat-message>
     </div>
+    
 </template>
 
 <script>
-import ChatMessage from './ChatMessage.vue'
+import ChatMessage from './ChatMessage';
 export default {
-  components: { ChatMessage },
+    components: { 
+        ChatMessage 
+      },
+
     props: {
         chatId: {
             type: Number,
             require: true
+        },
+        messages: {
+            type: Array,
+            requred: true
         }
     }
 }
 </script>
-
-<style>
-
-</style>

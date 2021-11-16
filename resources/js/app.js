@@ -13,6 +13,8 @@ window.Alpine = Alpine;
  
 Alpine.start();
 
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -27,6 +29,7 @@ Alpine.start();
 Vue.component('chat-component', require('./components/Chat.vue').default);
 Vue.component('ChatUserList', require('./components/ChatUserList.vue').default);
 Vue.component('ChatArea', require('./components/ChatArea.vue').default);
+Vue.component('ChatMessage', require('./components/ChatMessage.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
