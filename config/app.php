@@ -171,8 +171,18 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        //pusher를 위해 주석 해제함
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+
+
+
+
+
+
+
+
+        
         App\Providers\RouteServiceProvider::class,
 
     ],
