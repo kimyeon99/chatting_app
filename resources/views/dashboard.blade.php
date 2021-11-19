@@ -3,18 +3,15 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
         </h2>
-
 </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+<div class="flex-1 h-full">
+    <chat-component :current-user="{{ Auth::user()->id }}"></chat-component>
+</div>
+<The-Room/>
 
-                <chat-component :current-user="{{ Auth::user()->id }}"></chat-component>
 
-            </div>
-        </div>
-    </div>
+
 
 
 

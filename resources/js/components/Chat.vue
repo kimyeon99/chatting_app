@@ -2,6 +2,7 @@
     <div class="flex h-full">
         <chat-user-list :current-user="currentUser"
             @updatedChatWith="updateChatWith"
+            :chatWith="chatWith"
         ></chat-user-list>
 
         <div v-if="chatWith" class="w-4/5 flex flex-col" style="height: 600px;">

@@ -10,7 +10,16 @@ window.Vue = require('vue').default;
 
 import Alpine from "alpinejs";
 window.Alpine = Alpine;
- 
+
+import Vue from "vue";
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll);
+
+import VueRouter from 'vue-router';
+import routes from './routes';
+
+Vue.use(VueRouter);
+
 Alpine.start();
 
 
@@ -30,6 +39,9 @@ Vue.component('chat-component', require('./components/Chat.vue').default);
 Vue.component('ChatUserList', require('./components/ChatUserList.vue').default);
 Vue.component('ChatArea', require('./components/ChatArea.vue').default);
 Vue.component('ChatMessage', require('./components/ChatMessage.vue').default);
+Vue.component('the-room', require('./components/Room.vue').default);
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -39,4 +51,6 @@ Vue.component('ChatMessage', require('./components/ChatMessage.vue').default);
 
 const app = new Vue({
     el: '#app',
+
+    router: new VueRouter(routes)
 });
