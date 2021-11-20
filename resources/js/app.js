@@ -20,6 +20,8 @@ import routes from './routes';
 
 Vue.use(VueRouter);
 
+
+
 Alpine.start();
 
 
@@ -39,7 +41,8 @@ Vue.component('chat-component', require('./components/Chat.vue').default);
 Vue.component('ChatUserList', require('./components/ChatUserList.vue').default);
 Vue.component('ChatArea', require('./components/ChatArea.vue').default);
 Vue.component('ChatMessage', require('./components/ChatMessage.vue').default);
-Vue.component('the-room', require('./components/Room.vue').default);
+Vue.component('CreateRoom', require('./components/CreateRoom.vue').default);
+Vue.component('TheRoom', require('./components/Room.vue').default);
 
 
 

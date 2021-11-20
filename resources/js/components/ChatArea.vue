@@ -3,6 +3,7 @@
         <ChatMessage
         v-for="message in messages" 
         :key="message.id" :message="message"></ChatMessage>
+        
     </div>
 </template>
 

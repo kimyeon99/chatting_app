@@ -1,20 +1,20 @@
-// export default{
+import TheRoom from './components/Room';
+
+export default{
+    mode : 'history',
  
-//     mode : 'history',
+    routes:[
+        {
+            path: '/room', component: TheRoom
+        }
+    ] 
+};
  
-//     routes:[
-//         {
-//             path: '/',
- 
-//             component: Home
-//         },
- 
-//         {
-//             path: '/about',
- 
-//             component: About
-//         },
-//     ]
- 
-// };
- 
+// const router = new VueRouter({
+//     mode: 'history',
+//     routes: [
+//       {
+//         path: '/room/:id', component: TheRoom
+//       }
+//    ]
+//   });
