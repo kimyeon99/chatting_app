@@ -10,11 +10,10 @@
 </div>
 <create-room/>
 
-
-
-
-
-
-
-
 </x-app-layout>
+
+@include('modal.createRoom')
+
+<a href="#" class="btn btn-success" data-toggle="modal" data-target="#createModal">
+    <span style="color:white">{{ __('New') }}</span> 
+</a>

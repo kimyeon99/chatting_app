@@ -22,10 +22,10 @@
         <form>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">방 제목:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input type="text" class="form-control" id="recipient-name" name="text">
           </div>
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="recipient-name" class="col-form-label">비밀번호:</label>
             <input type="text" class="form-control" id="recipient-name">
           </div>
@@ -43,12 +43,11 @@
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">라운드 수:</label>
             <input type="text" class="form-control" id="recipient-name">
-          </div>
+          </div> -->
           
         </form>
       </div>
       <div class="modal-footer">
-        <router-view></router-view>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button @click="a" type="button" class="btn btn-primary"
         >확인</button>
@@ -73,14 +72,11 @@ export default {
         //   axios.post('/room').then((res) => res.data) 룸 정보를 등록하고 
         // then에 도착하면 등록이 끝난건데 그때까지 loading해줘야함 
         // 서버에서는 등록하고 나서 response 를 번호는 줘야됨 무조건 
-        
-        //
-                    axios.post('/room', {
-                        title: this.title,
-                    }).then(res => {
+          axios.post('/room').then(res => {
                         //push: 끝에 추가
-                        this.messages.push(res.data.message);
-                        this.$router.push('/room')
+                        console.log(res.data);
+                        //<router-view></router-view>
+                        this.$router.push({name:'TheRoom', params: {id:'1'}});
                     }).catch(error => {
               console.log(error);
         });

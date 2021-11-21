@@ -25,6 +25,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::post('/room', [RoomController::class, 'store'])->name('room.store');
+Route::get('/room/{id}', [RoomController::class, 'show'])->name('room.show');
 
 
 
