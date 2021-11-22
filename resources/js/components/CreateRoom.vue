@@ -22,7 +22,7 @@
         <form>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">방 제목:</label>
-            <input type="text" class="form-control" id="recipient-name" name="text">
+            <input v-model="title" type="text" class="form-control" id="recipient-name" name="text">
           </div>
 
           <!-- <div class="form-group">
@@ -62,7 +62,14 @@
 </template>
 
 <script>
+import TheRoom from './Room';
 export default {
+  data(){
+    return {
+      roomId:"",
+      title:""
+    }
+  },
   methods: {
       createModal(){
           //this.form.reset();
@@ -72,11 +79,14 @@ export default {
         //   axios.post('/room').then((res) => res.data) 룸 정보를 등록하고 
         // then에 도착하면 등록이 끝난건데 그때까지 loading해줘야함 
         // 서버에서는 등록하고 나서 response 를 번호는 줘야됨 무조건 
-          axios.post('/room').then(res => {
+          axios.post('/room/store', {
+            'title': this.title
+          }).then(res => {
                         //push: 끝에 추가
                         console.log(res.data);
+                        //console.log(this.roomId);
                         //<router-view></router-view>
-                        this.$router.push({name:'TheRoom', params: {id:'1'}});
+                        this.$router.push({name:'TheRoom', params: {"id":res.data}});
                     }).catch(error => {
               console.log(error);
         });

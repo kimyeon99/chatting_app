@@ -13,45 +13,49 @@ class RoomController extends Controller
     public function show($id)
     {
         $room = Room::find($id);
-        $user = Auth::user();
-        $user->inRoom = $id;
+        // $user = Auth::user();
+        // $user->inRoom = $id;
+        // $user->save();
 
         #이벤트를 발생
-        RoomMessageSent::dispatch($room);
+        //RoomMessageSent::dispatch($id);
+        broadcast(new RoomMessageSent($room))->toOthers();
 
-        return view('Room', ['room' => $room]);
+
+        return view('Room', ['room' => $room, 'roomId' => $id]);
     }
 
     public function store(Request $request){
-        // $validate = $this->validate($request, [
+         $validate = $this->validate($request, [
+             'title'=>'required',
+         ]);
+
+
+        // $this->validate($request, [
         //     'title'=>'required',
         // ]);
-    
-        // $room = Room::create($validate);
-
-        $this->validate($request, [
-            'title'=>'required',
-        ]);
 
         $room = new Room();
         $room->title = $request->title;
         $room->save();
 
-        $user = Auth::user();
-        $user->inRoom = $room->id;
-        $user->isHost = true;
+        $roomId = $room->id;
+
+        // $user = Auth::user();
+        // $user->inRoom = $room->id;
+        // $user->isHost = true;
     
         // return response()->json ([
         //         'room' => $room
         //     ], 201);
 
         // return redirect('components.Room');
-        // return redirect()->back();
-        return redirect()->route('room.show', ['id' => $room->id]);
+        return $roomId;
+        // return redirect()->route('room.show', ['id' => $room->id]);
     }
 
-    public function leaveRoom(){
-
+    public function leaveRoom($id){
+        return view('dashboard');
     }
 
     public function destroy(){

@@ -6,4 +6,3 @@
     </x-slot>
 <the-room :room="{{ $room }}"></the-room>
 </x-app-layout>
-

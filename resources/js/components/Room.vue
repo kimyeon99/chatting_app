@@ -11,6 +11,8 @@
                 />
             </div>
         </div>
+        <button class="text-gray-700 "
+         @click="leaveRoom(room.id)">버튼</button>
         </div>
 </template>
 
@@ -18,10 +20,11 @@
 import RoomUserList from "./RoomUserList.vue"
 import RoomChatMessage from "./RoomChatMessage.vue"
 import RoomChatArea from './RoomChatArea.vue'
+import Button from '../../../vendor/laravel/breeze/stubs/inertia-vue/resources/js/Components/Button.vue'
 
 
 export default {
-  components: { RoomUserList, RoomChatArea },
+  components: { RoomUserList, RoomChatArea, Button },
     props: {
             room: {
                 type: Object,
@@ -33,6 +36,12 @@ export default {
             channel: null,
         }
     },
+    methods: {
+            leaveRoom(roomId) {
+                    console.log('leave')
+                },
+    },
+
     created() {
         //만약에 axios.get이 느려진다면 loading 화면이 필요함 
         // 서버에 2번 room의 정보를 요청
@@ -40,6 +49,14 @@ export default {
         // axios.get('/room/{2})
         // .then((res) => room = res.data)
 
+
+
+
+
+        
+    },
+
+    mounted(){
         this.channel = window.Echo.join(`chat.${this.room.id}`)
 
         this.channel
@@ -54,21 +71,8 @@ export default {
             .leaving((user) => {
                 console.log(`${user.id} 님이 나감`)
             })
+    }
 
-
-        // window.Echo.join('chat.${room}').joining((user) => {
-        //         consoel.log(user.name);
-        // }),
-        // window.Echo.join('chat.${room}').here((users) => {
-        //     console.log(users);
-        // })
-        
-    },
-        // window.Echo.private('chat').listen('MessageSent',e =>{
-        //         // 보내는 사람과 받는 사람이 일치할 경우에만 메세지 push
-        //         if(e.message.to === this.currentUser && e.message.from === this.chatWith )
-        //         this.messages.push(e.message);
-        //     });
         
 }
 </script>

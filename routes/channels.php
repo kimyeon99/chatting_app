@@ -23,7 +23,7 @@ Broadcast::channel('chat', function ($user) {
     return auth()->check();
 });
 
-Broadcast::channel('chat.{room}', function ($user, $room) {
+Broadcast::channel('chat.{roomId}', function ($user) {
      // return $user->isRoom == $room->id;
     //  return auth()->check();
      if (auth()->check()) {
@@ -31,3 +31,7 @@ Broadcast::channel('chat.{room}', function ($user, $room) {
      }
     //return auth()->check();
 });
+
+/** 
+ * 
+ */

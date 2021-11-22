@@ -5,7 +5,7 @@ export default{
  
     routes:[
         {
-            path: '/room', component: TheRoom, name: TheRoom
+            path: '/room', component: TheRoom, name: 'TheRoom', props:true
         }
     ] 
 };
