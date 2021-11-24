@@ -2,7 +2,7 @@
     <div class="w-1/5 border-r-2 border-solid border-gray-600 " style="height: 600px;">
             <h2>접속자</h2>
         <div
-            v-for="user in usersWithoutSignedInUser"
+            v-for="user in users"
             :key="user.id"
             class="p-2 border-b-2 border-gray-600 hover:bg-gray-300 cursor-pointer"
         >
@@ -17,17 +17,6 @@
             currentUser: {
                 type: Number,
                 required: true
-            },
-            chatWith: {
-                 type: Number,
-                required: false
-            }
-        },
-        computed: {
-            usersWithoutSignedInUser() {
-                return this.users.filter(user => {
-                    return user.id !== this.currentUser
-                });
             }
         },
         data() {

@@ -1,7 +1,6 @@
 <template>
     <div class="flex h-full">
         <chat-user-list :current-user="currentUser"
-            :chatWith="roomId"
         ></chat-user-list>
 
         <div class="w-4/5 flex flex-col" style="height: 600px;">
@@ -34,13 +33,9 @@
                 type: Number,
                 required: true
             },
-            room: {
-                type: Object,
-                required : false,
-            },
             roomId:{
-                type:Number,
-                required : false
+                type: Number,
+                required : false,
             }
         },
 
@@ -64,25 +59,20 @@
             //          && e.message.InRoom == this.room)
             //     this.messages.push(e.message);
             // });
-            
 
+            console.log(this.currentUser);
             this.getMessages();
 
             window.Echo.private('chat').listen('MessageSent',e =>{
                 // 보내는 사람과 받는 사람이 일치할 경우에만 메세지 push
-                if(e.message.to == this.chatWith){
+                if(e.message.to == this.roomId){
                     this.messages.push(e.message);
                 }
                 
             });
-            console.log(this.room);
-            //console.log(this.room.id);
             console.log(this.roomId);
-
         },
-        mounted() {
-            console.log('Component mounted.')
-        },
+        
         methods: {
             getMessages() {
                 axios.get('/api/messages', {

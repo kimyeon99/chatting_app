@@ -23,11 +23,6 @@
 </body>
 </div>
 
-
-
-
-
-
     <!-- <div class="w-1/5 border-r-2 border-solid border-gray-600 " style="height: 600px;">
             
         <div
@@ -43,9 +38,12 @@
 
 <script>
         export default {
-        //  props: {
-
-        //  },
+         props: {
+             roomUsers: {
+                 type:Array,
+                 required: true
+             }
+         },
         // computed: {
 
         // },
