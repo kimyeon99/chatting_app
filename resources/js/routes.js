@@ -1,4 +1,4 @@
-import TheRoom from './components/Room';
+import TheRoom from './components/Room.vue';
 
 export default{
     mode : 'history',

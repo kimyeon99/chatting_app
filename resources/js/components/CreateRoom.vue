@@ -86,7 +86,7 @@ export default {
                         console.log(res.data);
                         //console.log(this.roomId);
                         //<router-view></router-view>
-                        this.$router.push({name:'TheRoom', params: {"id":res.data}});
+                        this.$router.push({name:'TheRoom', params: {'id':res.data}});
                     }).catch(error => {
               console.log(error);
         });

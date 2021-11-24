@@ -28,7 +28,8 @@ class MessageController extends Controller
     $validate = request()->validate([
         'text'=>'required',
         'to'=>'required',
-        'from'=>'required',
+        'from'=>'required'
+        ,
     ]);
 
     $message = Message::create($validate);

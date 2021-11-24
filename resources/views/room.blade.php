@@ -4,5 +4,5 @@
             {{ __('Room') }}
         </h2>
     </x-slot>
-<the-room :room="{{ $room }}"></the-room>
+<the-room :room="{{ $room }}" :roomId="{{ $room->id }}"></the-room>
 </x-app-layout>

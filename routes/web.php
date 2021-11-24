@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
 
 Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');
 Route::get('/room/{id}', [RoomController::class, 'show'])->name('room.show');
-Route::get('/room/{id}/leave', [RoomController::class, 'leaveRoom'])->name('room.leaveRoom');
+Route::get('/room/leave', [RoomController::class, 'leaveRoom'])->name('room.leaveRoom');
 
 
 

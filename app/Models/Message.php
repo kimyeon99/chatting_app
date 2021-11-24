@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     protected $guarded = [];
-    protected $fillable = ['text','to', 'from'];
+    protected $fillable = ['text','to', 'from', 'InRoom'];
 
     public function from(){
         return $this->belongsTo(User::class, 'from');
@@ -16,5 +16,9 @@ class Message extends Model
 
     public function to(){
         return $this->belongsTo(User::class, 'to');
+    }
+
+    public function InRoom(){
+        return $this->belongTo(Room::class, 'InRoom');
     }
 }

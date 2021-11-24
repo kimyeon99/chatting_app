@@ -1,6 +1,7 @@
 <template>
         <div class="flex h-full">
-        <room-user-list></room-user-list>
+            <chat-component></chat-component>
+        <!-- <room-user-list></room-user-list>
 
         <div class="w-4/5 flex flex-col" style="height: 600px;">
             <room-chat-area></room-chat-area>
@@ -12,11 +13,12 @@
             </div>
         </div>
         <button class="text-gray-700 "
-         @click="leaveRoom(room.id)">버튼</button>
+         @click="leaveRoom(room.id)">버튼</button> -->
         </div>
 </template>
 
 <script>
+import ChatComponent from "./Chat.vue"
 import RoomUserList from "./RoomUserList.vue"
 import RoomChatMessage from "./RoomChatMessage.vue"
 import RoomChatArea from './RoomChatArea.vue'
@@ -34,11 +36,22 @@ export default {
     data() {
         return {
             channel: null,
+            messages: [],
         }
     },
+
     methods: {
             leaveRoom(roomId) {
-                    console.log('leave')
+                // /room/{id}/leave
+                console.log('1');
+                axios.get('/room/leave').then(res => {
+                        this.channel.leaving((member) => {
+                            console.log(member.id, member.info);
+                        remove_member(member.id, member.info);
+                        });
+                    }).catch(error => {
+                    console.log(error);
+                });
                 },
     },
 
@@ -49,28 +62,38 @@ export default {
         // axios.get('/room/{2})
         // .then((res) => room = res.data)
 
-
-
-
-
-        
-    },
-
-    mounted(){
-        this.channel = window.Echo.join(`chat.${this.room.id}`)
-
-        this.channel
-            .here((members) => {
-                members.forEach(member => {
-                    console.log(member);
+            this.channel = window.Echo.join(`chat.${this.room.id}`)
+                
+            this.channel
+            .here((users) => {
+                users.forEach(user => {
+                    console.log(user);
                 });
             })
             .joining((user) => {
-                console.log(`${user.id} 님이 참가`)
+                console.log(`${user.name} 님이 참가`)
+            }).leaving((user) => {
+                        console.log(`${user.name} 님이 나감`)
             })
-            .leaving((user) => {
-                console.log(`${user.id} 님이 나감`)
-            })
+
+
+
+            // this.channel.listen('room.message',e =>{
+            //     // 보내는 사람과 받는 사람이 일치할 경우에만 메세지 push
+            //     if(e.message.to === this.currentUser && e.message.from === this.chatWith )
+            //     this.messages.push(e.message);
+            // });
+    },
+
+    mounted(){
+            // this.channel
+            // .here((users) => (this.users = users))
+            // .joining((user) => console.log(`${user.id} 님이 참가`))
+            // .leaving((user) => {
+            //     console.log(`${user.id} 님이 나감`)
+            // })
+
+
     }
 
         

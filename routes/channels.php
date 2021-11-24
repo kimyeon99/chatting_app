@@ -28,6 +28,8 @@ Broadcast::channel('chat.{roomId}', function ($user) {
     //  return auth()->check();
      if (auth()->check()) {
          return ['id' => $user->id, 'name' => $user->name];
+    //         return $user->toArray();
+
      }
     //return auth()->check();
 });

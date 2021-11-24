@@ -8,8 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PDO;
 
+use function GuzzleHttp\Promise\queue;
+
 class RoomController extends Controller
 {
+    
     public function show($id)
     {
         $room = Room::find($id);
@@ -39,8 +42,6 @@ class RoomController extends Controller
         $room->title = $request->title;
         $room->save();
 
-        $roomId = $room->id;
-
         // $user = Auth::user();
         // $user->inRoom = $room->id;
         // $user->isHost = true;
@@ -50,15 +51,19 @@ class RoomController extends Controller
         //     ], 201);
 
         // return redirect('components.Room');
-        return $roomId;
-        // return redirect()->route('room.show', ['id' => $room->id]);
+        // return $roomId;
+         return redirect()->route('room.show', ['id' => $room->id]);
     }
 
-    public function leaveRoom($id){
+    public function leaveRoom(){
+        dd('1');
         return view('dashboard');
     }
 
-    public function destroy(){
-
+    public function destroy($id){
+        $room = Room::find($id);
+        $room->delete();
+        $room->save();
+        return redirect()->route('room.leaveRoom', ['id' => $id]);
     }
 }

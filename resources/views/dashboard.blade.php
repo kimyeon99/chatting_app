@@ -6,7 +6,7 @@
 </x-slot>
 
 <div class="flex-1 h-full">
-    <chat-component :current-user="{{ Auth::user()->id }}"></chat-component>
+    <chat-component :current-user="{{ Auth::user()->id }}" :room= "null" :roomId="null"></chat-component>
 </div>
 <create-room/>
 

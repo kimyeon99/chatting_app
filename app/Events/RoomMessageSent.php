@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Message;
 use App\Models\Room;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -45,8 +44,12 @@ class RoomMessageSent implements ShouldBroadcast
         # 위에서 또 메소드로 어떤 이벤트를 발생시킬건지 정의를 한다. 문서(브로드캐스트 이름)
     }
 
-    public function broadcastWith()
-    {
-        return ["ChannelMessage" => "broadcastWith"];
+    // public function broadcastWith()
+    // {
+    //     return ["Message" => "broadcastWith"];
+    // }
+
+    public function broadcastAs(){
+        return 'room.message';
     }
 }

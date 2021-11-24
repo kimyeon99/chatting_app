@@ -1,12 +1,10 @@
 <template>
     <div class="w-1/5 border-r-2 border-solid border-gray-600 " style="height: 600px;">
-            
+            <h2>접속자</h2>
         <div
             v-for="user in usersWithoutSignedInUser"
             :key="user.id"
             class="p-2 border-b-2 border-gray-600 hover:bg-gray-300 cursor-pointer"
-            :class="{'text-pink-500': chatWith === user.id}"
-            @click="updateChatWith(user.id)"
         >
             {{ user.name }}
         </div>
@@ -20,7 +18,6 @@
                 type: Number,
                 required: true
             },
-
             chatWith: {
                  type: Number,
                 required: false
@@ -45,10 +42,5 @@
                 console.log(error)
             });
         },
-        methods: {
-            updateChatWith(userId) {
-                this.$emit('updatedChatWith', userId);
-            }
-        }
     }
 </script>
