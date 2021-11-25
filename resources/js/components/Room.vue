@@ -2,9 +2,10 @@
         <div class="flex h-full">
         <room-user-list :current-user="currentUser"
             v-bind:room-users="roomUsers"
+            :room="room"
         ></room-user-list>
 
-        <div class="w-4/5 flex flex-col" style="height: 300px;">
+        <!-- <div class="w-4/5 flex flex-col" style="height: 300px;">
             <room-chat-area
                 :chat-id="roomId"
                 :messages="messages"
@@ -17,10 +18,8 @@
                     @keyup.enter="submit"
                 />
             </div>
-        </div>
-        <!-- <div v-else class="p-2">
-            채팅 상대를 선택
         </div> -->
+
         </div>
 </template>
 
@@ -40,13 +39,13 @@ export default {
                 required: true
             },
             currentUser: {
-                type:Number,
+                type:Object,
                 required: true
             },
             roomId:{
-                tpye:Number,
+                type:Number,
                 required: true
-            }
+            },
     },
     data() {
         return {
@@ -108,6 +107,9 @@ export default {
         // .then((res) => room = res.data)
 
             console.log(this.currentUser);
+
+            this.currentUser.isHost = true;
+
             this.getMessages();
 
             window.Echo.private('chat').listen('MessageSent',e =>{
@@ -123,9 +125,9 @@ export default {
                 
             this.channel
             .here((users) => {
-                this.roomUsers = users;
+                 this.roomUsers = users;
                 // users.forEach(user => {
-                //     this.roomUsers.push(user);
+                //     this.roomUsers += user.name;
                 // });
                 console.log(this.roomUsers);
             })
@@ -134,6 +136,7 @@ export default {
             }).leaving((user) => {
                         console.log(`${user.name} 님이 나감`)
             })
+
 
 
 

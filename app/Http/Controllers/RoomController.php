@@ -12,6 +12,11 @@ use function GuzzleHttp\Promise\queue;
 
 class RoomController extends Controller
 {
+    public function index(){
+        $roomList = Room::all();
+        // dd($roomList);
+        return $roomList;
+    }
     
     public function show($id)
     {
@@ -25,7 +30,7 @@ class RoomController extends Controller
         broadcast(new RoomMessageSent($room))->toOthers();
 
 
-        return view('Room', ['room' => $room, 'roomId' => $id]);
+        return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
     }
 
     public function store(Request $request){
@@ -38,13 +43,11 @@ class RoomController extends Controller
         //     'title'=>'required',
         // ]);
 
+        
         $room = new Room();
         $room->title = $request->title;
         $room->save();
 
-        // $user = Auth::user();
-        // $user->inRoom = $room->id;
-        // $user->isHost = true;
     
         // return response()->json ([
         //         'room' => $room

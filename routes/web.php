@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RoomController;
+use App\Models\Room;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +22,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard', ['rooms' => Room::all()]);
 })->middleware(['auth'])->name('dashboard');
 
+
+Route::get('/room/index', [RoomController::class, 'index'])->name('room.index');
 Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');
 Route::get('/room/{id}', [RoomController::class, 'show'])->name('room.show');
 Route::get('/room/leave', [RoomController::class, 'leaveRoom'])->name('room.leaveRoom');

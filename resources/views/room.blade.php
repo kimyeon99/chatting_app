@@ -4,5 +4,5 @@
             {{ __('Room') }}
         </h2>
     </x-slot>
-<the-room :room="{{ $room }}" :room-id="{{ $room->id }}" :current-user="{{ Auth::user()->id }}"></the-room>
+<the-room :room="{{ $room }}" :room-id="{{ $room->id }}" :current-user="{{ Auth::user() }}"></the-room>
 </x-app-layout>

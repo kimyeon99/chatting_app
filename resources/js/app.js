@@ -42,6 +42,7 @@ Vue.component('ChatUserList', require('./components/ChatUserList.vue').default);
 Vue.component('ChatArea', require('./components/ChatArea.vue').default);
 Vue.component('ChatMessage', require('./components/ChatMessage.vue').default);
 Vue.component('CreateRoom', require('./components/CreateRoom.vue').default);
+Vue.component('RoomList', require('./components/RoomList.vue').default);
 Vue.component('TheRoom', require('./components/Room.vue').default);
 Vue.component('RoomUserList', require('./components/RoomUserList.vue').default);
 Vue.component('RoomChatMessage', require('./components/RoomChatMessage.vue').default);
