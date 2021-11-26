@@ -30,7 +30,8 @@ class RoomController extends Controller
         broadcast(new RoomMessageSent($room))->toOthers();
 
 
-        return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
+        // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
+        return ['room' => $room, 'rooms' => $room::all()];
     }
 
     public function store(Request $request){
@@ -54,8 +55,8 @@ class RoomController extends Controller
         //     ], 201);
 
         // return redirect('components.Room');
-        // return $roomId;
-         return redirect()->route('room.show', ['id' => $room->id]);
+         return $room->id;
+        //  return redirect()->route('room.show', ['id' => $room->id]);
     }
 
     public function leaveRoom(){

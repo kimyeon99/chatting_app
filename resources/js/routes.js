@@ -1,12 +1,22 @@
 import TheRoom from './components/Room.vue';
+import RoomList from './components/RoomList.vue';
+
 
 export default{
-    mode : 'history',
+     mode : 'history',
  
     routes:[
         {
-            path: '/room', component: TheRoom, name: 'TheRoom', props:true
-        }
+            path: '/', 
+            name: 'RoomList', 
+            component: RoomList,
+        },
+        {
+            path: '/room/:id', 
+            name: 'TheRoom', 
+            component: TheRoom,
+            props:true
+        },
     ] 
 };
  

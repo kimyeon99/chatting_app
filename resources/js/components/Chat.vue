@@ -1,9 +1,8 @@
 <template>
     <div class="flex h-full">
-        <chat-user-list :current-user="currentUser"
-        ></chat-user-list>
 
-        <div class="w-4/5 flex flex-col" style="height: 600px;">
+
+        <div class="w-3/5 flex flex-col" style="height: 400px;">
             <chat-area
                 :chat-id="roomId"
                 :messages="messages"

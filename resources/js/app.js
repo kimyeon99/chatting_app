@@ -48,6 +48,9 @@ Vue.component('RoomUserList', require('./components/RoomUserList.vue').default);
 Vue.component('RoomChatMessage', require('./components/RoomChatMessage.vue').default);
 Vue.component('RoomChatArea', require('./components/RoomChatArea.vue').default);
 
+Vue.component('TheMain', require('./components/Main.vue').default);
+
+
 
 
 /**

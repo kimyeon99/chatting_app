@@ -39,7 +39,7 @@ export default {
                 required: true
             },
             currentUser: {
-                type:Object,
+                type:Number,
                 required: true
             },
             roomId:{

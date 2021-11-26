@@ -1,12 +1,18 @@
 <x-app-layout>
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
         </h2>
+
 </x-slot>
+<create-room></create-room>
+
 
     {{-- <room-list v-bind:roomList="{{ $roomList }}"></room-list> --}}
-    <room-list :rooms="{{ $rooms }}" ></room-list>
+
+        {{-- <room-list :rooms="{{ $rooms }}" ></room-list> --}}
+  <the-main :rooms="{{ $rooms }}"></the-main>
     
 
 <div class="flex-1 h-full">
@@ -16,8 +22,8 @@
 
 </x-app-layout>
 
-@include('modal.createRoom')
+{{-- @include('modal.createRoom')
 
 <a href="#" class="btn btn-success" data-toggle="modal" data-target="#createModal">
     <span style="color:white">{{ __('방 만들기') }}</span> 
-</a>
+</a> --}}

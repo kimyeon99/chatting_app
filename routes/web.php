@@ -16,14 +16,21 @@ use App\Models\Room;
 |
 */
 
-//any? = 어떤 경로라도
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/dashboard', function () {
-    return view('dashboard', ['rooms' => Room::all()]);
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/{any?}', function () {
+//     return view('welcome');
+// });
+
+Route::get('/{any?}', function () {
+    return view('main', ['rooms' => Room::all()]);
+})->middleware(['auth']);
+
+// Route::get('/{any?}', function () {
+//     return view('main', ['rooms' => Room::all()]);
+// })->middleware(['auth']);
 
 
 Route::get('/room/index', [RoomController::class, 'index'])->name('room.index');
