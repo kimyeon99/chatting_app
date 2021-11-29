@@ -24,6 +24,9 @@
 </template>
 
 <script>
+
+import EventBus from '../app.js'
+    import RoomList from './RoomList.vue';
    import ChatUserList from './ChatUserList';
     import ChatArea from './ChatArea';
     export default {
@@ -58,6 +61,10 @@
             //          && e.message.InRoom == this.room)
             //     this.messages.push(e.message);
             // });
+
+            EventBus.$on('getRoomId', (payload)=>{
+                    this.roomId = payload;
+            });
 
             console.log(this.roomId);
             this.getMessages();

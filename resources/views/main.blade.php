@@ -20,7 +20,7 @@
     
 
         <div class="flex-1 h-full">
-            <chat-component :current-user="{{ Auth::user()->id }}" :room-id="{{ $roomId }}"></chat-component>
+            <chat-component :current-user="{{ Auth::user()->id }}" :room-id="0"></chat-component>
         </div>
     </div>
 

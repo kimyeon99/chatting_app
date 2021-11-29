@@ -20,6 +20,11 @@ import routes from './routes';
 
 Vue.use(VueRouter);
 
+window.EventBus = new Vue();
+
+export default EventBus;
+
+
 
 
 Alpine.start();

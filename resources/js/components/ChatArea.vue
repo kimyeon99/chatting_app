@@ -17,11 +17,11 @@ export default {
     props: {
         chatId: {
             type: Number,
-            require: true
+            required: true
         },
         messages: {
             type: Array,
-            requred: true
+            required: true
         }
     }
 }
