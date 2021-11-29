@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import EventBus from '../app.js'
+import { mapMutations, mapState } from 'vuex'
+
 export default {
     props:{
         currentUser: {
@@ -49,16 +50,16 @@ export default {
     // },
     methods:{ //오또케 진짜 ㅡ.ㅡ((퍽))
         a(roomId) {
+        this.$store.commit('get_RoomId', roomId);
         //   axios.post('/room').then((res) => res.data) 룸 정보를 등록하고 
         // then에 도착하면 등록이 끝난건데 그때까지 loading해줘야함 
         // 서버에서는 등록하고 나서 response 를 번호는 줘야됨 무조건
-            EventBus.$emit('getRoomId', roomId);
             axios.get('/room/'+roomId).then(res => {
                         this.$router.push({name:'TheRoom',  params: {'roomId':roomId, room:res.data}});
                     }).catch(error => {
               console.log(error);
         });
-      }
+      },
     }
 }
 </script>

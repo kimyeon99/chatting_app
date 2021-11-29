@@ -99,7 +99,6 @@ export default {
                 if(e.message.to == this.roomId){
                     this.messages.push(e.message);
                 }
-                
             });
             console.log(this.roomId);
 
@@ -115,6 +114,7 @@ export default {
             })
             .joining((user) => {
                 console.log(`${user.name} 님이 참가`);
+                this.messages.push(`${user.name} 님이 참가`);
                 this.roomUsers.push(user);
             }).leaving((user) => {
                 console.log(`${user.name} 님이 나감`);

@@ -12,17 +12,20 @@ import Alpine from "alpinejs";
 window.Alpine = Alpine;
 
 import Vue from "vue";
-import VueChatScroll from 'vue-chat-scroll'
+import VueChatScroll from 'vue-chat-scroll';
+import store from './store'
+
 Vue.use(VueChatScroll);
+
 
 import VueRouter from 'vue-router';
 import routes from './routes';
 
 Vue.use(VueRouter);
 
-window.EventBus = new Vue();
 
-export default EventBus;
+
+
 
 
 
@@ -66,6 +69,6 @@ Vue.component('TheMain', require('./components/Main.vue').default);
 
 const app = new Vue({
     el: '#app',
-
+    store,
     router: new VueRouter(routes)
 });

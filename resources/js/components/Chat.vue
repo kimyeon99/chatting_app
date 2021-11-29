@@ -24,8 +24,8 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
 
-import EventBus from '../app.js'
     import RoomList from './RoomList.vue';
    import ChatUserList from './ChatUserList';
     import ChatArea from './ChatArea';
@@ -35,9 +35,11 @@ import EventBus from '../app.js'
                 type: Number,
                 required: true
             },
-            roomId:{
-                type: Number,
-                required : false,
+        },
+
+        computed: {
+            roomId(){
+                return this.$store.state.roomId;
             }
         },
 
@@ -62,10 +64,6 @@ import EventBus from '../app.js'
             //     this.messages.push(e.message);
             // });
 
-            EventBus.$on('getRoomId', (payload)=>{
-                    this.roomId = payload;
-            });
-
             console.log(this.roomId);
             this.getMessages();
 
@@ -77,7 +75,8 @@ import EventBus from '../app.js'
                 }
                 
             });
-            console.log(this.roomId);
+
+            
         },
         
         methods: {
@@ -102,6 +101,7 @@ import EventBus from '../app.js'
                     }).then(res => {
                         //push: messages 끝에 추가
                         this.messages.push(res.data.message);
+                        console.log('to' + this.roomId);
                     }).catch(error => {
                     console.log(error);
                 });
