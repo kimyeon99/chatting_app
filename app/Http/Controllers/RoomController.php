@@ -28,10 +28,10 @@ class RoomController extends Controller
         #이벤트를 발생
         //RoomMessageSent::dispatch($id);
         broadcast(new RoomMessageSent($room))->toOthers();
-
+        view('main',['roomId' => $id]);
 
         // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
-        return ['room' => $room, 'rooms' => $room::all()];
+        return $room;
     }
 
     public function store(Request $request){

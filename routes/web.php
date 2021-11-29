@@ -24,8 +24,8 @@ use App\Models\Room;
 //     return view('welcome');
 // });
 
-Route::get('/{any?}', function () {
-    return view('main', ['rooms' => Room::all()]);
+Route::get('/', function () {
+    return view('main', ['rooms' => Room::all(), 'roomId' => '0']);
 })->middleware(['auth']);
 
 // Route::get('/{any?}', function () {

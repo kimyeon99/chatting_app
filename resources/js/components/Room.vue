@@ -1,24 +1,9 @@
 <template>
-        <div class="flex h-full">
-        <room-user-list :current-user="currentUser"
+        <div>
+        <room-user-list
             v-bind:room-users="roomUsers"
             :room="room"
         ></room-user-list>
-
-        <!-- <div class="w-4/5 flex flex-col" style="height: 300px;">
-            <room-chat-area
-                :chat-id="roomId"
-                :messages="messages"
-            ></room-chat-area>
-            <div class="flex-initial">
-                <input 
-                    class="border-r-2 border-solid rounded border-gray-600 w-full p-3" 
-                    type="text"
-                    v-model="text"
-                    @keyup.enter="submit"
-                />
-            </div>
-        </div> -->
 
         </div>
 </template>
@@ -38,10 +23,7 @@ export default {
                 type: Object,
                 required: true
             },
-            currentUser: {
-                type:Number,
-                required: true
-            },
+
             roomId:{
                 type:Number,
                 required: true
@@ -108,7 +90,7 @@ export default {
 
             console.log(this.currentUser);
 
-            this.currentUser.isHost = true;
+            // this.currentUser.isHost = true;
 
             this.getMessages();
 
@@ -132,9 +114,16 @@ export default {
                 console.log(this.roomUsers);
             })
             .joining((user) => {
-                console.log(`${user.name} 님이 참가`)
+                console.log(`${user.name} 님이 참가`);
+                this.roomUsers.push(user);
             }).leaving((user) => {
-                        console.log(`${user.name} 님이 나감`)
+                console.log(`${user.name} 님이 나감`);
+                for(let i = 0; i < this.roomUsers.length; i++) {
+                        if(this.roomUsers[i] === user)  {
+                            this.roomUsers.splice(i, 1);
+                            break;
+                        }
+                    }
             })
 
 
@@ -146,8 +135,9 @@ export default {
             //     this.messages.push(e.message);
             // });
     },
+    mounted(){
 
-        
+    }
 }
 </script>
 

@@ -12,7 +12,7 @@ export default{
             component: RoomList,
         },
         {
-            path: '/room/:id', 
+            path: '/room/:roomId', 
             name: 'TheRoom', 
             component: TheRoom,
             props:true

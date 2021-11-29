@@ -7,25 +7,22 @@
     <link rel="stylesheet" href="{{ asset('css/app.css')}}">
 
         <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" async defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 <body>
+
     <div id="app">
-    
-    <create-room></create-room>
+        <create-room></create-room>
 
-    {{-- <room-list v-bind:roomList="{{ $roomList }}"></room-list> --}}
-
-        {{-- <room-list :rooms="{{ $rooms }}" ></room-list> --}}
-    <div>
-  <the-main :rooms="{{ $rooms }}" :current-user="{{ Auth::user()->id }}"></the-main>
-</div>
+        <div>
+            <the-main :rooms="{{ $rooms }}" :current-user="{{ Auth::user()->id }}"></the-main>
+        </div>
     
 
-<div class="flex-1 h-full">
-    <chat-component :current-user="{{ Auth::user()->id }}" :room-id="0"></chat-component>
-</div>
-</div>
+        <div class="flex-1 h-full">
+            <chat-component :current-user="{{ Auth::user()->id }}" :room-id="{{ $roomId }}"></chat-component>
+        </div>
+    </div>
 
 </body>
 </html>

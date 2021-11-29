@@ -33,7 +33,7 @@
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">플레이어 수:</label>
             <input type="text" class="form-control" id="recipient-name">
-          </div>
+        </div>
 
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">게임 유형:</label>

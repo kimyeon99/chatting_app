@@ -59,11 +59,12 @@
             //     this.messages.push(e.message);
             // });
 
-            console.log(this.currentUser);
+            console.log(this.roomId);
             this.getMessages();
 
             window.Echo.private('chat').listen('MessageSent',e =>{
                 // 보내는 사람과 받는 사람이 일치할 경우에만 메세지 push
+                console.log(e.message.to);
                 if(e.message.to == this.roomId){
                     this.messages.push(e.message);
                 }
