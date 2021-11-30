@@ -3,7 +3,7 @@
     <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 
     border-b-4 border-blue-700 hover:border-blue-500 rounded"
     @click="createModal">                
-        방만들기
+        방만들기Vue
     </button>
 
 
@@ -49,7 +49,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button @click="a" type="button" class="btn btn-primary"
+        <button @click="createRoom" type="button" class="btn btn-primary"
         >확인</button>
       </div>
     </div>
@@ -75,7 +75,10 @@ export default {
           //this.form.reset();
           $("#modal").modal("show"); // modal.("hide")
       },
-      a() {
+      closeModal(){
+        $("#modal").modal("hide"); 
+      },
+      createRoom() {
         //   axios.post('/room').then((res) => res.data) 룸 정보를 등록하고 
         // then에 도착하면 등록이 끝난건데 그때까지 loading해줘야함 
         // 서버에서는 등록하고 나서 response 를 번호는 줘야됨 무조건 
@@ -86,7 +89,8 @@ export default {
                         console.log(res.data);
                         //console.log(this.roomId);
                         //<router-view></router-view>
-                        this.$router.push({path:'/room', params: {'id':res.data}});
+                        this.closeModal();
+                        this.$router.push({name:'TheRoom', params: {'roomId':res.data.id, 'room':res.data}});
                     }).catch(error => {
               console.log(error);
         });

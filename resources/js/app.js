@@ -57,6 +57,7 @@ Vue.component('RoomChatMessage', require('./components/RoomChatMessage.vue').def
 Vue.component('RoomChatArea', require('./components/RoomChatArea.vue').default);
 
 Vue.component('TheMain', require('./components/Main.vue').default);
+Vue.component('TheGame', require('./components/inGame/Game.vue').default);
 
 
 

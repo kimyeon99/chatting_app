@@ -1,9 +1,19 @@
 <template>
     <div>
-        <div>
+        <div v-if="message.from.id==0">
+            <strong>알림</strong>    
+        </div>
+
+        <div v-else>
             <strong> {{ message.from.name }} {{ message.created_at }} </strong>
         </div>
-        <div>
+
+
+        <div v-if="message.from.id==0">
+            <strong>{{ message.text }}</strong>
+        </div>
+
+        <div v-else>
             {{ message.text }}
         </div>
     </div>

@@ -9,7 +9,7 @@
 		<!-- Tile 1 -->
 		<div v-for="room in rooms" :key="room.id" class="flex flex-col bg-gray-200 rounded-lg p-4 m-2
             hover:bg-blue-500 hover:text-gray-100 focus:border-4 focus:border-blue-300 cursor-pointer"
-                @click="a(room.id)"
+                @click="goRoom(room.id)"
             >
 			<div class="flex flex-col items-start mt-4">
 				<h1 class="text-xl font-bold">{{ room.title }}</h1>
@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
-
 export default {
     props:{
         currentUser: {
@@ -49,7 +47,7 @@ export default {
     //     }
     // },
     methods:{ //오또케 진짜 ㅡ.ㅡ((퍽))
-        a(roomId) {
+        goRoom(roomId) {
         this.$store.commit('get_RoomId', roomId);
         //   axios.post('/room').then((res) => res.data) 룸 정보를 등록하고 
         // then에 도착하면 등록이 끝난건데 그때까지 loading해줘야함 

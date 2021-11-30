@@ -1,9 +1,59 @@
 <template>
         <div>
+
+<div class="flex-1 bg-gray-200 p-4 flex justify-center items-center">
+<div class="bg-white w-full md:max-w-4xl rounded-lg shadow h-500">
+<div class="h-12 flex justify-between items-center border-b border-gray-200 m-4">
+  <div >
+   <div class="text-xl font-bold text-gray-700">{{room.title}}</div>
+   <div class="text-sm font-base text-gray-500">Waiting for more players...</div>
+  </div>
+  <div>
+    <div class="flex items-center justify-center w-full  shadow-md rounded-full">
+      <label
+          htmlFor="toogleA" class="flex items-center cursor-pointer"
+      >
+        <div class="flex items-center">
+          <input id="toogleA" type="checkbox" class="hidden"/>
+          <div
+              class="toggle__line w-20 h-10 bg-gray-300 rounded-full shadow-inner"
+          >
+          </div>
+          <div
+              class="toggle__dot bg-red-400 absolute w-10 h-10 bg-white rounded-full shadow flex items-center justify-center"
+          >
+            <svg class="text-white w-6 h-6 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+            </svg>
+          </div>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>
+
+
+<!--프로필-->
         <room-user-list
             v-bind:room-users="roomUsers"
             :room="room"
         ></room-user-list>
+
+  
+  
+
+  <div class="flex bg-gray-200 justify-center items-center h-16 p-4 my-6  rounded-lg  shadow-inner">
+    <div class="flex items-center border border-gray-400 p-2 border-dashed rounded cursor-pointer">
+    
+      <div class="ml-1 text-gray-500 font-medium"> Invite a friend</div>
+    </div>
+  </div>
+</div>
+  <div class="p-6 ">
+    <button class="p-4 bg-green-400 hover:bg-green-500 w-full rounded-lg shadow text-xl font-medium uppercase text-white">Start the game</button>
+  </div>
+</div>
+    </div>
 
         </div>
 </template>
@@ -21,11 +71,6 @@ export default {
     props: {
             room: {
                 type: Object,
-                required: true
-            },
-
-            roomId:{
-                type:Number,
                 required: true
             },
     },
@@ -55,7 +100,7 @@ export default {
             getMessages() {
                 axios.get('/api/messages', {
                     params: {
-                        to: this.roomId,
+                        to: this.room.id,
                         from: this.currentUser
                     }
                 }).then(res => {
@@ -66,9 +111,9 @@ export default {
 
             submit() {
                 if (this.text) {
-            axios.post('/api/messages', {
+                    axios.post('/api/messages', {
                         text: this.text,
-                        to: this.roomId,
+                        to: this.room.id,
                         from: this.currentUser
                     }).then(res => {
                         //push: messages 끝에 추가
@@ -78,7 +123,20 @@ export default {
                 });
                 }
                 this.text = '';
-            }
+            },
+
+            // adminMessage(text){
+            //     axios.post('/api/messages', {
+            //             text: text,
+            //             to: this.roomId,
+            //             from: 0
+            //         }).then(res => {
+            //             //push: messages 끝에 추가
+            //             this.messages.push(text);
+            //         }).catch(error => {
+            //         console.log(error);
+            //     });
+            // }
     },
 
     created() {
@@ -88,21 +146,19 @@ export default {
         // axios.get('/room/{2})
         // .then((res) => room = res.data)
 
-            console.log(this.currentUser);
-
             // this.currentUser.isHost = true;
 
             this.getMessages();
 
             window.Echo.private('chat').listen('MessageSent',e =>{
                 // 보내는 사람과 받는 사람이 일치할 경우에만 메세지 push
-                if(e.message.to == this.roomId){
+                if(e.message.to == this.room.id){
                     this.messages.push(e.message);
                 }
             });
-            console.log(this.roomId);
+            console.log('roomId:' + this.room.id);
 
-            this.channel = window.Echo.join(`chat.${this.room.id}`)
+            this.channel = window.Echo.join(`chat.${this.room.id}`);
                 
             this.channel
             .here((users) => {
@@ -114,10 +170,11 @@ export default {
             })
             .joining((user) => {
                 console.log(`${user.name} 님이 참가`);
-                this.messages.push(`${user.name} 님이 참가`);
+                //this.adminMessage(`${user.name} 님이 참가`);
                 this.roomUsers.push(user);
             }).leaving((user) => {
-                console.log(`${user.name} 님이 나감`);
+                console.log(`${user.name} 님이 참가`);
+                //this.adminMessage(`${user.name} 님이 나감`);
                 for(let i = 0; i < this.roomUsers.length; i++) {
                         if(this.roomUsers[i] === user)  {
                             this.roomUsers.splice(i, 1);
