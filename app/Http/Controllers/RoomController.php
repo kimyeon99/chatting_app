@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\RoomMessageSent;
 use App\Models\Room;
+use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PDO;
@@ -68,5 +69,34 @@ class RoomController extends Controller
         $room->delete();
         $room->save();
         return redirect()->route('room.leaveRoom', ['id' => $id]);
+    }
+
+    public function getRandomWord(){
+        $randomWord = Word::inRandomOrder()->first();
+
+        return $randomWord;
+    }
+
+    public function confirmWord(Request $request){
+        $submitWord = $request->submitWord;
+        $lastWord = $request->lastWord;
+        $confirm = false;
+
+        $firstLetterOfSubmitWord = mb_substr($submitWord, 0, 1,'SERVER_CHARSET');
+        $lastLetterOfLastWord = mb_substr($lastWord, mb_strlen($lastWord)-1, 1);
+
+        if($firstLetterOfSubmitWord == $lastLetterOfLastWord){
+            $confirm = !Empty(Word::where('word', $submitWord));
+        }
+
+        dd($request->all());
+
+        // mb_substr( 문자열 ,  시작 숫자,   길이 , 인코딩 = mb_internal_encoding()  )
+        
+        
+
+        
+        
+        return $confirm;
     }
 }

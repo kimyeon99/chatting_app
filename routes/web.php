@@ -38,6 +38,10 @@ Route::post('/room/store', [RoomController::class, 'store'])->name('room.store')
 Route::get('/room/{id}', [RoomController::class, 'show'])->name('room.show');
 Route::get('/room/leave', [RoomController::class, 'leaveRoom'])->name('room.leaveRoom');
 
+// in Game
+Route::get('/room/getRandomWord', [RoomController::class, 'getRandomWord'])->name('room.getRandomWord');
+Route::get('/room/confirmWord', [RoomController::class, 'confirmWord'])->name('room.confirmWord');
+
 
 
 require __DIR__.'/auth.php';

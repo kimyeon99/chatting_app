@@ -1,6 +1,7 @@
 <template>
 
 <div class="px-6">
+
   <div v-for="roomUser in roomUsers" :key="roomUser.id"
   class="flex justify-between items-center h-16 p-4 my-6  rounded-lg border border-gray-100 shadow-md">
     <div class="flex items-center">
@@ -18,6 +19,9 @@
       </button>
     </div>
   </div>
+
+
+
 </div>
 
     
@@ -41,7 +45,7 @@
         // },
         data() {
             return {
-                users: []
+                users: [],
             }
         },
 

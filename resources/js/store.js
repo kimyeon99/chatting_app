@@ -6,6 +6,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     roomId: 0,
+    isGame: false,
+    randomWord:'',
+    lastWord:'',
+    submitWord:'',
   },
   mutations: {
     get_RoomId (state, roomId)
@@ -13,5 +17,12 @@ export default new Vuex.Store({
      {
       state.roomId = roomId;
     },
+    game_Start(){
+      isGame = true;
+    },
+    game_End(){
+      isGame = false;
+    },
+    
   }
 })

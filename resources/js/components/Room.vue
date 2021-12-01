@@ -1,61 +1,46 @@
 <template>
-        <div>
-
-<div class="flex-1 bg-gray-200 p-4 flex justify-center items-center">
-<div class="bg-white w-full md:max-w-4xl rounded-lg shadow h-500">
-<div class="h-12 flex justify-between items-center border-b border-gray-200 m-4">
-  <div >
-   <div class="text-xl font-bold text-gray-700">{{room.title}}</div>
-   <div class="text-sm font-base text-gray-500">Waiting for more players...</div>
-  </div>
-  <div>
-    <div class="flex items-center justify-center w-full  shadow-md rounded-full">
-      <label
-          htmlFor="toogleA" class="flex items-center cursor-pointer"
-      >
-        <div class="flex items-center">
-          <input id="toogleA" type="checkbox" class="hidden"/>
-          <div
-              class="toggle__line w-20 h-10 bg-gray-300 rounded-full shadow-inner"
-          >
-          </div>
-          <div
-              class="toggle__dot bg-red-400 absolute w-10 h-10 bg-white rounded-full shadow flex items-center justify-center"
-          >
-            <svg class="text-white w-6 h-6 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
-            </svg>
-          </div>
-        </div>
-      </label>
+    <div v-if="isGame">
+      <TheGame></TheGame>
     </div>
-  </div>
-</div>
-
-
-<!--프로필-->
+  
+<div v-else>
+            <div class="flex-1 bg-gray-200 p-4 flex justify-center items-center">
+            <div class="bg-white w-full md:max-w-4xl rounded-lg shadow h-500">
+            <div class="h-12 flex justify-between items-center border-b border-gray-200 m-4">
+            <div>
+            <div class="text-xl font-bold text-gray-700">{{room.title}}</div>
+            <div class="text-sm font-base text-gray-500">Waiting for more players...</div>
+            </div>
+            <!-- X button -->
+            <div>
+                <div class="flex items-center justify-center w-full  shadow-md rounded-full">
+                
+                </div>
+            </div>
+    </div>
+    <!--프로필-->
         <room-user-list
             v-bind:room-users="roomUsers"
             :room="room"
         ></room-user-list>
+    <!--프로필-->
 
-  
-  
 
-  <div class="flex bg-gray-200 justify-center items-center h-16 p-4 my-6  rounded-lg  shadow-inner">
-    <div class="flex items-center border border-gray-400 p-2 border-dashed rounded cursor-pointer">
-    
-      <div class="ml-1 text-gray-500 font-medium"> Invite a friend</div>
-    </div>
-  </div>
+            <div class="flex bg-gray-200 justify-center items-center h-16 p-4 my-6  rounded-lg  shadow-inner">
+                <div class="flex items-center border border-gray-400 p-2 border-dashed rounded cursor-pointer">
+                
+                <div class="ml-1 text-gray-500 font-medium"> Invite a friend</div>
+                </div>
+            </div>
+            </div>
+            <div class="p-6 ">
+                <button @click="gameStart" class="p-4 bg-green-400 hover:bg-green-500 w-full rounded-lg shadow text-xl font-medium uppercase text-white"
+                >Start the game</button>
+            </div>
+            </div>
 </div>
-  <div class="p-6 ">
-    <button class="p-4 bg-green-400 hover:bg-green-500 w-full rounded-lg shadow text-xl font-medium uppercase text-white">Start the game</button>
-  </div>
-</div>
-    </div>
 
-        </div>
+        
 </template>
 
 <script>
@@ -80,6 +65,12 @@ export default {
             text: '',
             messages: [],
             roomUsers: [],
+        }
+    },
+
+    computed: {
+        isGame(){
+            return this.$store.state.isGame;
         }
     },
 
@@ -124,6 +115,9 @@ export default {
                 }
                 this.text = '';
             },
+            gameStart(){
+                this.$store.commit('game_Start');
+            }
 
             // adminMessage(text){
             //     axios.post('/api/messages', {
