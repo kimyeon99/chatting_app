@@ -26,10 +26,10 @@ class RoomController extends Controller
         // $user = Auth::user();
         // $user->inRoom = $id;
         // $user->save();
-        $isHost = false;
+        $isGame = false;
 
         #이벤트를 발생
-        RoomMessageSent::dispatch($room);
+        RoomMessageSent::dispatch($room, $isGame);
         //broadcast(new RoomMessageSent($room))->toOthers();
 
         // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
@@ -101,15 +101,18 @@ class RoomController extends Controller
 
     public function gameStart($id){
         $room = Room::find($id);
-        $room->isGame = true;
+
+        $isGame = true;
+
+        $room->isGame = $isGame;
         $room->save();
-        //$isHost = true;
+        
         // $user = Auth::user();
         // $user->inRoom = $id;
         // $user->save();
 
         #이벤트를 발생
-        //RoomMessageSent::dispatch($room, $isHost);
+        RoomMessageSent::dispatch($room, $isGame);
 
         // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
         return $room;

@@ -15,7 +15,7 @@ use SebastianBergmann\Environment\Console;
 class RoomMessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $room;
+    public $room, $isGame;
 
 
     /**
@@ -23,9 +23,10 @@ class RoomMessageSent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Room $room)
+    public function __construct(Room $room, $isGame)
     {
         $this->room = $room;
+        $this->isGame = $isGame;
     }
 
     /**
