@@ -49,7 +49,7 @@ class RoomMessageSent implements ShouldBroadcast
     //     return ["Message" => "broadcastWith"];
     // }
 
-    public function broadcastAs(){
-        return 'room.message';
-    }
+    // public function broadcastAs(){
+    //     return 'room.message';
+    // }
 }

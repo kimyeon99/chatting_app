@@ -1,8 +1,22 @@
 <template>
-    <div v-if="isGame">
-      <TheGame></TheGame>
-    </div>
-  
+<div v-if="room.isGame">
+<div class="flex items-center justify-center w-screen p-10">
+	<div class="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-2 max-w">
+		<div class="flex flex-col bg-gray-200 rounded-lg p-4 m-2
+            hover:bg-blue-500 hover:text-gray-100 focus:border-4 focus:border-blue-300 cursor-pointer">
+            <p>제시된 단어</p>
+			<div class="flex flex-col items-start mt-4">
+				<h1 class="text-xl font-bold">{{randomWord}}</h1>
+				<p class="text-sm">
+                    {{ lastWord }}
+                </p>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+
 <div v-else>
             <div class="flex-1 bg-gray-200 p-4 flex justify-center items-center">
             <div class="bg-white w-full md:max-w-4xl rounded-lg shadow h-500">
@@ -14,7 +28,7 @@
             <!-- X button -->
             <div>
                 <div class="flex items-center justify-center w-full  shadow-md rounded-full">
-                
+                    
                 </div>
             </div>
     </div>
@@ -39,7 +53,6 @@
             </div>
             </div>
 </div>
-
         
 </template>
 
@@ -67,11 +80,26 @@ export default {
             roomUsers: [],
         }
     },
-
+    created(){
+        this.getRandomWord();
+    },
     computed: {
-        isGame(){
-            return this.$store.state.isGame;
-        }
+        randomWord(){
+            return this.$store.state.randomWord;
+        },
+        lastWord(){
+            return this.$store.state.lastWord;
+        },
+        submitWord(){
+            return this.$store.state.submitWord;
+        },
+        round(){
+            return this.$store.state.round;
+        },
+        roomId(){
+            return this.$store.state.roomId;
+        },
+
     },
 
     methods: {
@@ -115,8 +143,26 @@ export default {
                 }
                 this.text = '';
             },
+            // gameStart(){
+            //     this.$store.commit('game_Start');
+            // },
             gameStart(){
-                this.$store.commit('game_Start');
+                axios.post('/room/' + this.roomId + '/gameStart',{
+                    id: this.roomId,
+                }).then(res => {
+                    this.room = res.data;
+                    this.channel.listen('RoomMessageSent',e =>{
+
+                    });
+            });
+
+
+            },
+            gameEnd(){
+                this.$store.commit('game_End');
+            },
+            getRandomWord(){
+                this.$store.commit('getRandomWord');
             }
 
             // adminMessage(text){
@@ -167,7 +213,7 @@ export default {
                 //this.adminMessage(`${user.name} 님이 참가`);
                 this.roomUsers.push(user);
             }).leaving((user) => {
-                console.log(`${user.name} 님이 참가`);
+                console.log(`${user.name} 님이 나감`);
                 //this.adminMessage(`${user.name} 님이 나감`);
                 for(let i = 0; i < this.roomUsers.length; i++) {
                         if(this.roomUsers[i] === user)  {
@@ -175,7 +221,8 @@ export default {
                             break;
                         }
                     }
-            })
+            });
+
 
 
 
@@ -187,7 +234,9 @@ export default {
             // });
     },
     mounted(){
-
+            
+        
+        
     }
 }
 </script>

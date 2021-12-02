@@ -10,6 +10,7 @@ export default new Vuex.Store({
     randomWord:'',
     lastWord:'',
     submitWord:'',
+    round:5
   },
   mutations: {
     get_RoomId (state, roomId)
@@ -17,11 +18,30 @@ export default new Vuex.Store({
      {
       state.roomId = roomId;
     },
-    game_Start(){
-      isGame = true;
+
+    // game_Start(state){
+    //   state.isGame = true;
+    // },
+
+    game_End(state){
+      state.isGame = false;
     },
-    game_End(){
-      isGame = false;
+
+    success(state, submitWord){
+      state.round--;
+      if(state.round == 0){
+        this.game_End();
+      }
+      state.lastWord = submitWord;
+      
+    },
+
+    getRandomWord(state){
+      // axios get으로 db의 단어 중 랜덤하게 한 단어를 가져온다.
+      // 그 단어로 게임을 시작한다.
+      axios.get('/getRandomWord').then(res => {
+              state.randomWord = res.data.word;
+          });
     },
     
   }

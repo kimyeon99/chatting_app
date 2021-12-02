@@ -41,9 +41,6 @@ import { mapMutations, mapState } from 'vuex'
             roomId(){
                 return this.$store.state.roomId;
             },
-            isGame(){
-                return this.$store.state.isGame;
-            },
             randomWord(){
                 return this.$store.state.randomWord;
             },
@@ -52,6 +49,12 @@ import { mapMutations, mapState } from 'vuex'
             },
             submitWord(){
                 return this.$store.state.submitWord;
+            },
+            round(){
+                return this.$store.state.round;
+            },
+            isGame(){
+                return this.$store.state.isGame;
             }
             
         },
@@ -121,18 +124,8 @@ import { mapMutations, mapState } from 'vuex'
                             }).catch(error => {
                             console.log(error);
                         });
-                    
-
                 }
                 this.text = '';
-            },
-
-            getRandomWord(){
-            // axios get으로 db의 단어 중 랜덤하게 한 단어를 가져온다.
-            // 그 단어로 게임을 시작한다.
-            axios.get('/room/getRandomWord').then(res => {
-                    this.randomWord = res.data;
-                });
             },
 
             confirmWord(lastWord, submitWord){
@@ -145,13 +138,18 @@ import { mapMutations, mapState } from 'vuex'
                     // this.randomWord = res.data.lastWord;
                     // this.submitWord = res.data.submitWord;
                     if(res.data){
-                        this.success();
-                    } else{
-                        this.fail();
+                        this.success(submitWord);
                     }
-                    
             });
+            },
+
+            success(submitWord){
+                this.$store.commit('success', submitWord);
+            },
+
+
+
         },
-        }
+
     }
 </script>

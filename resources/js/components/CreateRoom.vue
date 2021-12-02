@@ -83,8 +83,8 @@ export default {
         // then에 도착하면 등록이 끝난건데 그때까지 loading해줘야함 
         // 서버에서는 등록하고 나서 response 를 번호는 줘야됨 무조건 
           axios.post('/room/store', {
-            'title': this.title
-          }).then(res => {
+            'title': this.title,          
+            }).then(res => {
                         //push: 끝에 추가
                         console.log(res.data);
                         //console.log(this.roomId);

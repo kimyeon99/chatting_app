@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RoomGameStart;
 use App\Events\RoomMessageSent;
 use App\Models\Room;
 use App\Models\Word;
@@ -25,10 +26,11 @@ class RoomController extends Controller
         // $user = Auth::user();
         // $user->inRoom = $id;
         // $user->save();
+        $isHost = false;
 
         #이벤트를 발생
-        //RoomMessageSent::dispatch($id);
-        broadcast(new RoomMessageSent($room))->toOthers();
+        RoomMessageSent::dispatch($room);
+        //broadcast(new RoomMessageSent($room))->toOthers();
 
         // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
         return $room;
@@ -47,6 +49,7 @@ class RoomController extends Controller
         
         $room = new Room();
         $room->title = $request->title;
+        $room->isGame = false;
         $room->save();
 
     
@@ -93,10 +96,24 @@ class RoomController extends Controller
 
         // mb_substr( 문자열 ,  시작 숫자,   길이 , 인코딩 = mb_internal_encoding()  )
         
-        
-
-        
-        
         return $confirm;
     }
+
+    public function gameStart($id){
+        $room = Room::find($id);
+        $room->isGame = true;
+        $room->save();
+        //$isHost = true;
+        // $user = Auth::user();
+        // $user->inRoom = $id;
+        // $user->save();
+
+        #이벤트를 발생
+        //RoomMessageSent::dispatch($room, $isHost);
+
+        // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
+        return $room;
+    }    
+
+
 }
