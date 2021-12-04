@@ -18,8 +18,8 @@ class CreateMessagesTable extends Migration
             $table->integer('to')->default(0);
             $table->unsignedBigInteger('from');
             $table->string('text');
-            $table->timestamps();
             $table->foreign('from')->references('id')->on('users');
+            $table->timestamps();
         });
     }
 

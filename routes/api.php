@@ -27,3 +27,4 @@ Route::prefix('messages')->group(function(){
 
 Route::get('/users', [UserController::class, 'index']);
 
+

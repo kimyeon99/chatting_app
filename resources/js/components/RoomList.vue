@@ -5,6 +5,11 @@
         <chat-user-list :current-user="currentUser"
         ></chat-user-list>
 
+            <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+            @click="refresh">    
+                새로고침
+            </button>
+
 	<div class="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-2 max-w">
 		<!-- Tile 1 -->
 		<div v-for="room in rooms" :key="room.id" class="flex flex-col bg-gray-200 rounded-lg p-4 m-2
@@ -37,27 +42,24 @@ export default {
             required:true
         }
     },
-    // created(){
-    //     console.log(this.rooms);
-    //     this.getRoomList();
-    // },
-    // computed: {
-    //     updateRoomList() {
-    //         this.getRoomList();
-    //     }
-    // },
+
     methods:{ //오또케 진짜 ㅡ.ㅡ((퍽))
         goRoom(roomId) {
-        this.$store.commit('get_RoomId', roomId);
-        //   axios.post('/room').then((res) => res.data) 룸 정보를 등록하고 
-        // then에 도착하면 등록이 끝난건데 그때까지 loading해줘야함 
-        // 서버에서는 등록하고 나서 response 를 번호는 줘야됨 무조건
+            this.$store.commit('get_RoomId', roomId);
+            //   axios.post('/room').then((res) => res.data) 룸 정보를 등록하고 
+            // then에 도착하면 등록이 끝난건데 그때까지 loading해줘야함 
+            // 서버에서는 등록하고 나서 response 를 번호는 줘야됨 무조건
+            
             axios.get('/room/'+roomId).then(res => {
-                        this.$router.push({name:'TheRoom',  params: {'roomId':roomId, room:res.data}});
-                    }).catch(error => {
-              console.log(error);
-        });
-      },
+                            this.$router.push({name:'TheRoom',  params: {'roomId':roomId, room:res.data}});
+                        }).catch(error => {
+                console.log(error);
+            });
+        },
+
+        refresh(){
+                this.$router.go();
+        }
     }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-<div v-if="room.isGame">
+<div v-if="isGame">
 <div class="flex items-center justify-center w-screen p-10">
 	<div class="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-2 max-w">
 		<div class="flex flex-col bg-gray-200 rounded-lg p-4 m-2
@@ -18,6 +18,10 @@
 
 
 <div v-else>
+        <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+            @click="goBack">    
+                뒤로가기
+            </button>
             <div class="flex-1 bg-gray-200 p-4 flex justify-center items-center">
             <div class="bg-white w-full md:max-w-4xl rounded-lg shadow h-500">
             <div class="h-12 flex justify-between items-center border-b border-gray-200 m-4">
@@ -49,7 +53,7 @@
             </div>
             <div class="p-6 ">
                 <button @click="gameStart" class="p-4 bg-green-400 hover:bg-green-500 w-full rounded-lg shadow text-xl font-medium uppercase text-white"
-                >Start the game</button>
+                >게임 시작</button>
             </div>
             </div>
 </div>
@@ -78,10 +82,9 @@ export default {
             text: '',
             messages: [],
             roomUsers: [],
+            room_info:'',
+            isGame:false,
         }
-    },
-    created(){
-        this.getRandomWord();
     },
     computed: {
         randomWord(){
@@ -96,25 +99,34 @@ export default {
         round(){
             return this.$store.state.round;
         },
-        roomId(){
-            return this.$store.state.roomId;
-        },
+        // isGame: {
+        //     get: function(){
+        //         return this.$store.state.isGame;
+        //     },
+        //     set: function(value){
+        //         return value;
+        //     }
+        // },
+
+        isAdmin(){
+            return this.$store.state.isAdmin;
+        }
 
     },
 
     methods: {
-            leaveRoom(roomId) {
-                // /room/{id}/leave
-                console.log('1');
-                axios.get('/room/leave').then(res => {
-                        this.channel.leaving((member) => {
-                            console.log(member.id, member.info);
-                        remove_member(member.id, member.info);
-                        });
-                    }).catch(error => {
-                    console.log(error);
-                });
-                },
+            // leaveRoom(roomId) {
+            //     // /room/{id}/leave
+            //     console.log('1');
+            //     axios.get('/room/leave').then(res => {
+            //             this.channel.leaving((member) => {
+            //                 console.log(member.id, member.info);
+            //             remove_member(member.id, member.info);
+            //             });
+            //         }).catch(error => {
+            //         console.log(error);
+            //     });
+            //     },
 
             getMessages() {
                 axios.get('/api/messages', {
@@ -123,62 +135,42 @@ export default {
                         from: this.currentUser
                     }
                 }).then(res => {
-                    console.log(res);
                     this.messages = res.data.messages;
                 });
             },
 
-            submit() {
-                if (this.text) {
-                    axios.post('/api/messages', {
-                        text: this.text,
-                        to: this.room.id,
-                        from: this.currentUser
-                    }).then(res => {
-                        //push: messages 끝에 추가
-                        this.messages.push(res.data.message);
-                    }).catch(error => {
-                    console.log(error);
-                });
-                }
-                this.text = '';
-            },
-            // gameStart(){
-            //     this.$store.commit('game_Start');
-            // },
-            gameStart(){
-                axios.post('/room/' + this.roomId + '/gameStart',{
-                    id: this.roomId,
-                }).then(res => {
-                    this.room = res.data;
-                    this.channel.listen('RoomMessageSent',e =>{
 
-                    });
-            });
-
-
-            },
-            gameEnd(){
-                this.$store.commit('game_End');
-            },
             getRandomWord(){
                 this.$store.commit('getRandomWord');
-            }
+            },
 
-            // adminMessage(text){
-            //     axios.post('/api/messages', {
-            //             text: text,
-            //             to: this.roomId,
-            //             from: 0
-            //         }).then(res => {
-            //             //push: messages 끝에 추가
-            //             this.messages.push(text);
-            //         }).catch(error => {
-            //         console.log(error);
-            //     });
-            // }
-    },
+            goBack(){
+                this.$router.go(-1);
+            },
 
+            gameStart(){
+                axios.post('/room/' + this.room.id + '/gameStart',{
+                    id: this.room.id,
+                }).then(res => {
+                    console.log('AAA', res);
+                    console.log('1bb', this.isGame);
+                    if(res.data.isGame){
+                        this.isGame = true;
+                    }
+                    console.log('bb', this.isGame);
+                    // this.channel.listen(('roomMessageSent', e => {
+                    //     this.isGame = e.isGame;
+                    // }))
+            });
+            },
+
+            adminMessage(){
+                this.$store.commit('adminMessage');
+            },
+
+
+
+        },
     created() {
         //만약에 axios.get이 느려진다면 loading 화면이 필요함 
         // 서버에 2번 room의 정보를 요청
@@ -189,14 +181,21 @@ export default {
             // this.currentUser.isHost = true;
 
             this.getMessages();
-
-            window.Echo.private('chat').listen('MessageSent',e =>{
-                // 보내는 사람과 받는 사람이 일치할 경우에만 메세지 push
-                if(e.message.to == this.room.id){
-                    this.messages.push(e.message);
-                }
-            });
+ 
             console.log('roomId:' + this.room.id);
+            
+
+            this.room_info = this.room;
+
+            if(this.room_info.isGame){
+                    this.isGame = true;
+                    axios.post('/room/' + this.room.id + '/gameStart',{
+                    id: this.room.id,
+                }).then(res => {
+                    this.room = res.room;
+            });
+            }
+
 
             this.channel = window.Echo.join(`chat.${this.room.id}`);
                 
@@ -206,12 +205,12 @@ export default {
                 // users.forEach(user => {
                 //     this.roomUsers += user.name;
                 // });
-                console.log(this.roomUsers);
             })
             .joining((user) => {
                 console.log(`${user.name} 님이 참가`);
-                //this.adminMessage(`${user.name} 님이 참가`);
                 this.roomUsers.push(user);
+                this.adminMessage();
+                //this.adminMessage(`${user.name} 님이 참가`);
             }).leaving((user) => {
                 console.log(`${user.name} 님이 나감`);
                 //this.adminMessage(`${user.name} 님이 나감`);
@@ -221,17 +220,28 @@ export default {
                             break;
                         }
                     }
+            }).listen('RoomMessageSent', e => {
+                if(e.isGame){
+                    this.room_info = e.room;
+                    this.isGame = true;
+                    this.getRandomWord();
+                }
             });
 
 
 
-
-
-            // this.channel.listen('room.message',e =>{
-            //     // 보내는 사람과 받는 사람이 일치할 경우에만 메세지 push
-            //     if(e.message.to === this.currentUser && e.message.from === this.chatWith )
-            //     this.messages.push(e.message);
+            // window.Echo.
+            // channel(`chat.${this.room.id}`).listen('RoomMessageSent', e => {
+            //     if(e.isGame){
+            //         this.room_info = e.room;
+            //         this.isGame = true;
+            //         this.getRandomWord();
+            //     }
             // });
+
+            
+
+
     },
     mounted(){
             

@@ -26,10 +26,9 @@ class RoomController extends Controller
         // $user = Auth::user();
         // $user->inRoom = $id;
         // $user->save();
-        $isGame = false;
 
         #이벤트를 발생
-        RoomMessageSent::dispatch($room, $isGame);
+        RoomMessageSent::dispatch($room, false);
         //broadcast(new RoomMessageSent($room))->toOthers();
 
         // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
@@ -37,7 +36,7 @@ class RoomController extends Controller
     }
 
     public function store(Request $request){
-         $validate = $this->validate($request, [
+         $this->validate($request, [
              'title'=>'required',
          ]);
 
@@ -101,10 +100,7 @@ class RoomController extends Controller
 
     public function gameStart($id){
         $room = Room::find($id);
-
-        $isGame = true;
-
-        $room->isGame = $isGame;
+        $room->isGame = true;
         $room->save();
         
         // $user = Auth::user();
@@ -112,7 +108,7 @@ class RoomController extends Controller
         // $user->save();
 
         #이벤트를 발생
-        RoomMessageSent::dispatch($room, $isGame);
+        RoomMessageSent::dispatch($room, true);
 
         // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
         return $room;

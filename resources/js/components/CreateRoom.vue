@@ -66,7 +66,6 @@ import TheRoom from './Room';
 export default {
   data(){
     return {
-      roomId:"",
       title:""
     }
   },
@@ -78,6 +77,9 @@ export default {
       closeModal(){
         $("#modal").modal("hide"); 
       },
+      goRoom(roomId) {
+        this.$store.commit('get_RoomId', roomId);
+      },
       createRoom() {
         //   axios.post('/room').then((res) => res.data) 룸 정보를 등록하고 
         // then에 도착하면 등록이 끝난건데 그때까지 loading해줘야함 
@@ -86,15 +88,15 @@ export default {
             'title': this.title,          
             }).then(res => {
                         //push: 끝에 추가
-                        console.log(res.data);
-                        //console.log(this.roomId);
-                        //<router-view></router-view>
                         this.closeModal();
-                        this.$router.push({name:'TheRoom', params: {'roomId':res.data.id, 'room':res.data}});
+                        this.goRoom(res.data.id);
+                        this.$router.push({name:'TheRoom', params: {'roomId':res.data.id, room:res.data}});
                     }).catch(error => {
               console.log(error);
         });
-      }
+      },
+      
+
     }
 }
 </script>

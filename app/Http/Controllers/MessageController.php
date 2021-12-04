@@ -12,10 +12,9 @@ class MessageController extends Controller
         $messages = Message::where(function($query){
             $query->where('from', request('from'));
             $query->where('to', request('to'));
-        })->orWhere(function($query){
-            $query->where('from', request('to'));
-            $query->where('to', request('from'));
         })->get();
+
+
 
         return response()->json ([
             // load: from 이름과 to 이름 가져온다.
@@ -33,6 +32,10 @@ class MessageController extends Controller
     ]);
 
     $message = Message::create($validate);
+
+    $message->load('from');
+
+
     
     // 이벤트에서 Illuminate\Foundation\Events\Dispatchable trait를 사용하는 경우
     // 이벤트에서 정적 dispatch 메서드를 호출 할 수 있습니다. 

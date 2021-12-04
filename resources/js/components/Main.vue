@@ -4,7 +4,7 @@
     <input type="radio" name="tabmenu" id="ta01" checked>
     <label for="ta01" style="margin-left: 5%; background-color: red;">컨텐츠 탭 버튼1</label>
     <input type="radio" name="tabmenu" id="ta02" >
-    <label for="ta02" style="background-color: orange;">컨텐츠 탭 버튼2</label>
+<label for="ta02" style="background-color: orange;">컨텐츠 탭 버튼2</label>
     <input type="radio" name="tabmenu" id="ta03" >
     <label for="ta03" style="background-color: yellow;">컨텐츠 탭 버튼3</label>
 
@@ -13,8 +13,10 @@
         한개더만든다음 안에 쓰기 -->
         <router-view  :rooms="rooms" :current-user="currentUser"></router-view>
     </div>
-    <div class="conbox con2" id="backbox">컨텐츠 내용02</div>
+    <div class="conbox con2" id="backbox"></div>
     <div class="conbox con3" id="backbox">컨텐츠 내용03</div>
+
+
 
 
 </div>    
@@ -34,7 +36,6 @@
                 required: true
            }
         },
-
     }
 </script>
 <style>

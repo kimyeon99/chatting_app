@@ -13,7 +13,7 @@
 
     <div id="app">
         <create-room></create-room>
-
+        
         <div>
             <the-main :rooms="{{ $rooms }}" :current-user="{{ Auth::user()->id }}"></the-main>
         </div>
