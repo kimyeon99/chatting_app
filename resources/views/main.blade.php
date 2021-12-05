@@ -19,9 +19,7 @@
         </div>
     
 
-        <div class="flex-1 h-full">
-            <chat-component :current-user="{{ Auth::user()->id }}"></chat-component>
-        </div>
+
     </div>
 
 </body>

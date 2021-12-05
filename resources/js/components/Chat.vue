@@ -39,25 +39,7 @@ import { mapMutations, mapState } from 'vuex'
 
         computed: {
             roomId(){
-                return this.$store.state.roomId;
-            },
-            randomWord(){
-                return this.$store.state.randomWord;
-            },
-            lastWord(){
-                return this.$store.state.lastWord;
-            },
-            submitWord(){
-                return this.$store.state.submitWord;
-            },
-            round(){
-                return this.$store.state.round;
-            },
-            isGame(){
-                return this.$store.state.isGame;
-            },
-            isAdmin(){
-                return this.$store.state.isAdmin;
+                return this.$store.state.randomId;
             }
         },
 
@@ -110,15 +92,11 @@ import { mapMutations, mapState } from 'vuex'
                             axios.post('/api/messages', {
                                 text: this.text,
                                 to: this.roomId,
-                                from: this.currentUser
+                                from: this.currentUser,
+
                             }).then(res => {
                                 //push: messages 끝에 추가
                                 this.messages.push(res.data.message);
-                                // if(this.isGame){
-                                //     this.submitWord = res.data.message.text;
-                                //     this.confirmWord(this.lastWord, this.submitWord);
-                                // }
-                                console.log('submit', res);
                             }).catch(error => {
                             console.log(error);
                         })
@@ -126,27 +104,12 @@ import { mapMutations, mapState } from 'vuex'
                 this.text = '';
                 },
 
-            confirmWord(lastWord, submitWord){
-            // 유저가 제시한 단어가 정답인지
-            // 확인한다.
-            axios.get('/room/confirmWord', {
-                'lastWord' : lastWord,
-                'submitWord' : submitWord
-            }).then(res => {
-                    // this.randomWord = res.data.lastWord;
-                    // this.submitWord = res.data.submitWord;
-                    if(res.data){
-                        this.success(submitWord);
-                    }
-            });
-            },
 
-            success(submitWord){
-                this.$store.commit('success', submitWord);
-            },
             stopAdminMessage(){
                 this.$store.commit('stopAdminMessage');
-            }
+            },
+
+
 
 
 

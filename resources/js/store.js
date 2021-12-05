@@ -22,11 +22,7 @@ export default new Vuex.Store({
     },
 
     game_Start(state){
-      axios.post('/room/' + state.roomId + '/gameStart',{
-          id: state.roomId,
-      }).then(res => {
-          state.isGame = true;
-    })
+      state.isGame = true;
     },
 
     game_End(state){
@@ -56,7 +52,26 @@ export default new Vuex.Store({
 
     stopAdminMessage(state){
       state.isAdmin = false;
+    },
+
+    setRandomWord(state, randomWord){
+      state.randomWord = randomWord;
+    },
+
+    setLastWord(state, lastWord){
+      state.lastWord = lastWord;
+    },
+
+    setSubmitWord(state, submitWord){
+      state.submitWord = submitWord;
+    },
+    
+    changeLastWord(state, submitWord){
+      state.lastWord = submitWord;
     }
+
+
+    
     
   }
 })

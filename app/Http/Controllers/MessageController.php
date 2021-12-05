@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\MessageSent;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Exists;
 
 class MessageController extends Controller
 {
@@ -14,8 +15,6 @@ class MessageController extends Controller
             $query->where('to', request('to'));
         })->get();
 
-
-
         return response()->json ([
             // load: from 이름과 to 이름 가져온다.
             // with가 아니라 load인 점 주의
@@ -23,7 +22,7 @@ class MessageController extends Controller
         ], 200);
     }
 
-    public function store(){
+    public function store(Request $request){
     $validate = request()->validate([
         'text'=>'required',
         'to'=>'required',
@@ -31,11 +30,17 @@ class MessageController extends Controller
         ,
     ]);
 
+    $lastWord = null;
+    $submitWord = null;
+
+    if(!empty($request->lastWord) && !empty($request->submitWord)) {
+        $lastWord = $request->lastWord;
+        $submitWord = $request->submitWord;
+    }
+
     $message = Message::create($validate);
 
     $message->load('from');
-
-
     
     // 이벤트에서 Illuminate\Foundation\Events\Dispatchable trait를 사용하는 경우
     // 이벤트에서 정적 dispatch 메서드를 호출 할 수 있습니다. 

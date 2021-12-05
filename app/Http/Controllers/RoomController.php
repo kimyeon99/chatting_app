@@ -28,7 +28,7 @@ class RoomController extends Controller
         // $user->save();
 
         #이벤트를 발생
-        RoomMessageSent::dispatch($room, false);
+        RoomMessageSent::dispatch($room, false, null);
         //broadcast(new RoomMessageSent($room))->toOthers();
 
         // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
@@ -107,12 +107,14 @@ class RoomController extends Controller
         // $user->inRoom = $id;
         // $user->save();
 
+        $randomWord = $this->getRandomWord();
+
         #이벤트를 발생
-        RoomMessageSent::dispatch($room, true);
+        RoomMessageSent::dispatch($room, true, $randomWord);
 
         // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
         return $room;
-    }    
+    }
 
 
 }

@@ -11,7 +11,7 @@
     <div class="conbox con1" id="backbox">
         <!-- 이안에 바로내용쓰지말고 div 
         한개더만든다음 안에 쓰기 -->
-        <router-view  :rooms="rooms" :current-user="currentUser"></router-view>
+        <router-view refs="randomWord" :rooms="rooms" :current-user="currentUser"></router-view>
     </div>
     <div class="conbox con2" id="backbox"></div>
     <div class="conbox con3" id="backbox">컨텐츠 내용03</div>
@@ -19,7 +19,10 @@
 
 
 
-</div>    
+</div>
+        <div class="flex-1 h-full">
+            <chat-component :current-user="currentUser"></chat-component>
+        </div>
 </div>
 
 </template>
