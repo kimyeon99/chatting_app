@@ -1,8 +1,6 @@
 <template>
-    <div class="flex h-full">
-
-
-        <div class="w-3/5 flex flex-col" style="height: 400px;">
+    <div class="flex">
+        <div class="w-3/5 flex flex-col" style="height: 250px;">
             <chat-area
                 :chat-id="roomId"
                 :messages="messages"
@@ -39,7 +37,19 @@ import { mapMutations, mapState } from 'vuex'
 
         computed: {
             roomId(){
-                return this.$store.state.randomId;
+                return this.$store.state.roomId;
+            },
+            randomWord(){
+                return this.$store.state.randomWord;
+            },
+            isGame(){
+                return this.$store.state.isGame;
+            },
+            lastWord(){
+                return this.$store.state.lastWord;
+            },
+            round(){
+                return this.$store.state.round;
             }
         },
 
@@ -70,8 +80,6 @@ import { mapMutations, mapState } from 'vuex'
                 console.log('this 메세지' , this.messages);
                 
             });
-
-            
         },
         
         methods: {
@@ -93,10 +101,12 @@ import { mapMutations, mapState } from 'vuex'
                                 text: this.text,
                                 to: this.roomId,
                                 from: this.currentUser,
-
                             }).then(res => {
-                                //push: messages 끝에 추가
                                 this.messages.push(res.data.message);
+                                if(this.isGame){
+                                    console.log(this.lastWord.word, res.data.message.text);
+                                    this.confirmWords(this.lastWord.word, res.data.message.text);
+                                }
                             }).catch(error => {
                             console.log(error);
                         })
@@ -108,6 +118,25 @@ import { mapMutations, mapState } from 'vuex'
             stopAdminMessage(){
                 this.$store.commit('stopAdminMessage');
             },
+
+            confirmWords(lastWord, submitWord){
+                console.log(lastWord, submitWord);
+                axios.get('/confirmWords/'+lastWord +'/' + submitWord, {
+                                lastWord: lastWord,
+                                submitWord: submitWord,
+                            }).then(res => {
+                                if(res.data.confirm == 1){
+                                    this.success(res.data.currentUser, submitWord);
+                                    console.log('suc', lastWord, submitWord, this.round);
+                                }
+                            }).catch(error => {
+                            console.log(error);
+                        });
+            },
+
+            success(currentUser, submitWord){
+                this.$store.commit('success', currentUser, submitWord);
+            }
 
 
 

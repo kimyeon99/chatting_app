@@ -1,12 +1,12 @@
 <template>
-<div v-if="RoomIsGame">
+<div v-if="isGame">
 <div class="flex items-center justify-center w-screen p-10">
 	<div class="grid grid-cols-1 gap-2 max-w">
 		<div class="flex flex-col bg-gray-200 rounded-lg p-4 m-2
             hover:bg-blue-500 hover:text-gray-100 focus:border-4 focus:border-blue-300 cursor-pointer">
             <p>제시된 단어</p>
 			<div class="flex flex-col mt-4">
-				<h1 class="text-xl font-bold">{{RoomRandomWord.word}}</h1>
+				<h1 class="text-xl font-bold">{{randomWord.word}}</h1>
 				<p class="text-sm">
                     {{ lastWord }}
                 </p>
@@ -99,13 +99,26 @@ export default {
         }
     },
     computed: {
-        randomId(){
-            return this.$store.state.randomId;
+        randomWord(){
+            return this.$store.state.randomWord;
+        },
+        lastWord(){
+            return this.$store.state.lastWord;
+        },
+        submitWord(){
+            return this.$store.state.submitWord;
+        },
+        isGame(){
+            return this.$store.state.isGame;
+        },
+        isAdmin(){
+            return this.$store.state.isAdmin;
+        },
+        round(){
+            return this.$store.state.round;
         },
 
-
     },
-
     methods: {
             // leaveRoom(roomId) {
             //     // /room/{id}/leave
@@ -131,6 +144,10 @@ export default {
                 });
             },
 
+            getRandomWord(){
+                this.$store.commit('getRandomWord');
+            },
+
             goBack(){
                 this.$router.go(-1);
             },
@@ -139,16 +156,7 @@ export default {
                 axios.post('/room/' + this.room.id + '/gameStart',{
                     id: this.room.id,
                 }).then(res => {
-                    this.game_Start();
-                    console.log('AAA', res);
-                    console.log('1bb', this.RoomIsGame);
-                    if(res.data.isGame){
-                        this.RoomIsGame = true;
-                    }
-                    console.log('bb', this.RoomIsGame);
-                    // this.channel.listen(('roomMessageSent', e => {
-                    //     this.isGame = e.isGame;
-                    // }))
+
             });
             },
 
@@ -159,10 +167,19 @@ export default {
                 // axios get으로 db의 단어 중 랜덤하게 한 단어를 가져온다.
                 // 그 단어로 게임을 시작한다.
                 axios.get('/getRandomWord').then(res => {
-                    this.RoomRandomWord = res.data;
-                    console.log(this.RoomRandomWord);
+                    this.randomWord = res.data;
+                    console.log(this.randomWord);
             });
-
+            },
+            setRandomWord(randomWord){
+                this.$store.commit('setRandomWord', randomWord);
+            },
+            isGameTrue(){
+                this.$store.commit('game_Start');
+            },
+            setLastWord(lastWord){
+                this.$store.commit('setLastWord', lastWord);
+            }
 
         },
     created() {
@@ -219,10 +236,8 @@ export default {
             }).listen('RoomMessageSent', e => {
                 if(e.isGame){
                     this.room_info = e.room;
-                    this.RoomIsGame = true;
-                    this.RoomRandomWord = e.randomWord;
-                    this.setRandomWord(this.RoomRandomWord);
-                    
+                    this.isGameTrue();
+                    this.setLastWord(e.randomWord);
                 }
             });
 
@@ -248,7 +263,6 @@ export default {
         
         
     }
-}
 }
 </script>
 

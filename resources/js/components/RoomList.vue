@@ -1,5 +1,5 @@
 <template>
-<div class="flex items-center justify-center w-screen p-10">
+<div class="flex items-center p-10">
 	<!-- Resice the preview panel to check the responsiveness -->
 	<!-- Component Start -->
         <chat-user-list :current-user="currentUser"
@@ -41,6 +41,10 @@ export default {
             type:Array,
             required:true
         }
+    },
+
+    computed:{
+
     },
 
     methods:{ //오또케 진짜 ㅡ.ㅡ((퍽))

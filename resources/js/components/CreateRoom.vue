@@ -72,7 +72,7 @@ export default {
   methods: {
       createModal(){
           //this.form.reset();
-          $("#modal").modal("show"); // modal.("hide")
+        $("#modal").modal("show"); // modal.("hide")
       },
       closeModal(){
         $("#modal").modal("hide"); 

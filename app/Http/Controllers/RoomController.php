@@ -8,9 +8,11 @@ use App\Models\Room;
 use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Exists;
 use PDO;
 
 use function GuzzleHttp\Promise\queue;
+use function PHPUnit\Framework\isEmpty;
 
 class RoomController extends Controller
 {
@@ -79,23 +81,30 @@ class RoomController extends Controller
         return $randomWord;
     }
 
-    public function confirmWord(Request $request){
-        $submitWord = $request->submitWord;
+    public function confirmWords(Request $request){
+        
         $lastWord = $request->lastWord;
-        $confirm = false;
-
-        $firstLetterOfSubmitWord = mb_substr($submitWord, 0, 1,'SERVER_CHARSET');
-        $lastLetterOfLastWord = mb_substr($lastWord, mb_strlen($lastWord)-1, 1);
+        $submitWord = $request->submitWord;
+        $currentUser = Auth::user()->id;
+        $confirm = 0;
+     
+        $lastLetterOfLastWord = mb_substr($lastWord, mb_strlen( $lastWord, 'utf-8')-1, 1);
+        $firstLetterOfSubmitWord = mb_substr($submitWord, 0, 1);
+        
 
         if($firstLetterOfSubmitWord == $lastLetterOfLastWord){
-            $confirm = !Empty(Word::where('word', $submitWord));
+            $check = Word::where('word', $submitWord)->get();
+            
+            if(sizeof($check)){
+                $confirm = 1;
+            }
         }
 
-        dd($request->all());
+        // dd($lastLetterOfLastWord, $firstLetterOfSubmitWord, $confirm);
 
         // mb_substr( 문자열 ,  시작 숫자,   길이 , 인코딩 = mb_internal_encoding()  )
         
-        return $confirm;
+        return ['confirm'=>$confirm, 'currentUser'=> $currentUser];
     }
 
     public function gameStart($id){

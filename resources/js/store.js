@@ -29,11 +29,11 @@ export default new Vuex.Store({
       state.isGame = false;
     },
 
-    success(state, submitWord){
+    success(state, {currentUser, submitWord}){
       state.round--;
-      if(state.round == 0){
-        this.game_End();
-      }
+      // if(state.round == 0){
+      //   this.game_End();
+      // }
       state.lastWord = submitWord;
       
     },

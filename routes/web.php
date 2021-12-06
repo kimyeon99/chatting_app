@@ -40,7 +40,7 @@ Route::get('/room/leave', [RoomController::class, 'leaveRoom'])->name('room.leav
 
 // in Game
 Route::get('/getRandomWord', [RoomController::class, 'getRandomWord'])->name('room.getRandomWord');
-Route::get('/room/confirmWord', [RoomController::class, 'confirmWord'])->name('room.confirmWord');
+Route::get('/confirmWords/{lastWord}/{submitWord}', [RoomController::class, 'confirmWords'])->name('room.confirmWord');
 Route::post('/room/{id}/gameStart', [RoomController::class, 'gameStart'])->name('room.gameStart');
 
 
