@@ -24,11 +24,11 @@ Broadcast::channel('chat', function ($user) {
 });
 
 Broadcast::channel('chat.{roomId}', function ($user) {
-     // return $user->isRoom == $room->id;
+    // return $user->isRoom == $room->id;
     //  return auth()->check();
-     if (auth()->check()) {
-         return ['id' => $user->id, 'name' => $user->name];
-    //         return $user->toArray();
-     }
+    if (auth()->check()) {
+        return ['id' => $user->id, 'name' => $user->name];
+        //         return $user->toArray();
+    }
     //return auth()->check();
 });

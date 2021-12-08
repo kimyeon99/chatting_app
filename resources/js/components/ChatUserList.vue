@@ -1,6 +1,6 @@
 <template>
-    <div class="border-r-2 border-solid border-gray-600 " style="height: 500px;">
-            <h2>접속자</h2>
+    <div class="border-r-2 border-solid border-gray-600 " style="height: 500px; width: 200px;">
+            <h2 style="text-align: center;">접속자</h2>
         <div
             v-for="user in users"
             :key="user.id"
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-        export default {
+    export default {
         props: {
             currentUser: {
                 type: Number,

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\UserController;
+
 use App\Models\Room;
 
 /*
@@ -40,9 +42,12 @@ Route::get('/room/leave', [RoomController::class, 'leaveRoom'])->name('room.leav
 
 // in Game
 Route::get('/getRandomWord', [RoomController::class, 'getRandomWord'])->name('room.getRandomWord');
-Route::get('/confirmWords/{lastWord}/{submitWord}', [RoomController::class, 'confirmWords'])->name('room.confirmWord');
+Route::post('/confirmWords/{lastWord}/{submitWord}', [RoomController::class, 'confirmWords'])->name('room.confirmWord');
 Route::post('/room/{id}/gameStart', [RoomController::class, 'gameStart'])->name('room.gameStart');
+Route::get('/getProfile/{id}', [RoomController::class, 'getProfile'])->name('room.getProfile');
+
+Route::get('/user', [UserController::class, 'profile']);
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Str;
+
+
 
 class RegisteredUserController extends Controller
 {
@@ -45,10 +48,30 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        if ($request->profile_image) {
+            $user->profile_image = $this->uploadProfileImage($request);
+            $user->save();
+        }
         event(new Registered($user));
 
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function uploadProfileImage(Request $request)
+    {
+
+        $name = $request->profile_image->getClientOriginalName();
+        $extension = $request->file('profile_image')->extension();
+        $nameWithoutExtension = Str::of($name)->basename('.' . $extension);
+        $fileName = $nameWithoutExtension . '_' . time() . '.' . $extension;
+
+        $request->profile_image->storeAs('/public/images/profiles/', $fileName);
+
+
+        // dd($request);
+        // Auth::user()->profile_image = $fileName;
+        return $fileName;
     }
 }

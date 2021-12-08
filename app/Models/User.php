@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -42,9 +43,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function messages(){
+    public function messages()
+    {
         return $this->hasMany(Message::class);
     }
 
+    public function profileImagePath()
+    {
+        //   $path = '/storage/images';
+        // if ($this->user !== null) {
+        //     return null;
+        // }
 
+        //$path = env('PROFILE_IMAGE_PATH');
+        $path = '/storage/images/profiles/';
+        $profileImageFile = $this->profile_image ?? 'no_profile_image.png';
+
+        return $path . $profileImageFile;
+    }
 }

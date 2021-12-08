@@ -5,12 +5,14 @@
         <chat-user-list :current-user="currentUser"
         ></chat-user-list>
 
-            <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+            <!-- <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
             @click="refresh">    
                 새로고침
-            </button>
+            </button> -->
 
-	<div class="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-2 max-w">
+	<div class="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-2 max-w"
+    style="width: 1000px;    display: flex;
+    flex-wrap: wrap;">
 		<!-- Tile 1 -->
 		<div v-for="room in rooms" :key="room.id" class="flex flex-col bg-gray-200 rounded-lg p-4 m-2
             hover:bg-blue-500 hover:text-gray-100 focus:border-4 focus:border-blue-300 cursor-pointer"

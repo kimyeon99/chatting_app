@@ -19,12 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-    
-Route::prefix('messages')->group(function(){
+
+Route::prefix('messages')->group(function () {
     Route::get('/', [MessageController::class, 'index']);
     Route::post('/', [MessageController::class, 'store']);
- });
+});
 
 Route::get('/users', [UserController::class, 'index']);
-
-

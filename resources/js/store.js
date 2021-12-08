@@ -68,6 +68,10 @@ export default new Vuex.Store({
     
     changeLastWord(state, submitWord){
       state.lastWord = submitWord;
+    },
+    
+    setRound(state, round){
+      state.round = round;
     }
 
 

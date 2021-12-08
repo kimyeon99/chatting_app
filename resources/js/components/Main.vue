@@ -1,6 +1,6 @@
 <template>
 <div>
-<div class="tab_content" style="margin-top: 50px;">
+<div class="tab_content" style="margin-top: 50px;" >
     <input type="radio" name="tabmenu" id="ta01" checked>
     <label for="ta01" style="margin-left: 150px; background-color: red;">컨텐츠 탭 버튼1</label>
     <input type="radio" name="tabmenu" id="ta02" >
@@ -8,11 +8,13 @@
     <input type="radio" name="tabmenu" id="ta03" >
     <label for="ta03" style="background-color: yellow;">컨텐츠 탭 버튼3</label>
 
-    <div class="conbox con1" id="backbox">
+    <div class="conbox con1" id="backbox" >
         <div>
         <router-view :rooms="rooms" :current-user="currentUser"></router-view>
         </div>
-        <div class="flex-1">
+        <div class="flex-1" style="border: 3px solid gray; padding: 20px; margin-left: 50px; width: 1100px;
+          border-radius: 15px; "> 
+            <!-- <the-profile :current-user="currentUser"></the-profile> -->
             <chat-component :current-user="currentUser"></chat-component>
         </div>
     </div>
@@ -29,7 +31,16 @@
 </template>
 
 <script>
+    import RoomList from './RoomList.vue';
+    import Profile from './Profile.vue';
+    import Chat from './Chat.vue';
+
     export default {
+        components: {
+            RoomList,
+            Profile,
+            Chat
+        },
         props: {
            rooms:{
                type: Array,
@@ -38,7 +49,7 @@
            currentUser:{
                type: Number,
                 required: true
-           }
+           },
         },
     }
 </script>
@@ -67,7 +78,7 @@
         font-weight: bolder; 
         cursor: pointer;}
     input[type="radio"]:checked + label { color: black;}
-    body{background-color: rgb(155, 119, 119);}
+    body{background-color: rgb(29, 28, 28);}
     .conbox{
         width: 500px;
         height: 1500px; 
@@ -80,7 +91,7 @@
     input[id="ta03"]:checked ~ .con3 {display: block;} 
     #backbox{
         width: 80%;
-        height: 830px;
+        height: 900px;
         border-radius: 0px  20px 20px 20px;
     }
     /* 끄투배경 */

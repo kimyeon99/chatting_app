@@ -17,6 +17,11 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->string('title');
             $table->boolean('isGame');
+            $table->integer('round')->default(5);
+            $table->integer('player1Score')->default(0);
+            $table->integer('player2Score')->default(0);
+            $table->integer('player3Score')->default(0);
+            $table->integer('player4Score')->default(0);
             $table->timestamps();
         });
     }

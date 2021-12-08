@@ -58,6 +58,7 @@ Vue.component('RoomChatArea', require('./components/RoomChatArea.vue').default);
 
 Vue.component('TheMain', require('./components/Main.vue').default);
 Vue.component('TheGame', require('./components/inGame/Game.vue').default);
+Vue.component('TheProfile', require('./components/Profile.vue').default);
 
 
 

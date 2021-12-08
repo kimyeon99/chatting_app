@@ -1,6 +1,5 @@
 <template>
-    <div class="flex">
-        <div class="w-3/5 flex flex-col" style="height: 250px;">
+        <div class=" flex flex-col" style="height: 250px;">
             <chat-area
                 :chat-id="roomId"
                 :messages="messages"
@@ -18,13 +17,11 @@
             채팅 상대를 선택
         </div> -->
 
-    </div>
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex'
 
-    import RoomList from './RoomList.vue';
    import ChatUserList from './ChatUserList';
     import ChatArea from './ChatArea';
     export default {
@@ -104,8 +101,8 @@ import { mapMutations, mapState } from 'vuex'
                             }).then(res => {
                                 this.messages.push(res.data.message);
                                 if(this.isGame){
-                                    console.log(this.lastWord.word, res.data.message.text);
-                                    this.confirmWords(this.lastWord.word, res.data.message.text);
+                                    console.log('!!!!@#!@#',this.lastWord.word, res.data.message.text);
+                                    this.confirmWords(this.lastWord.word, res.data.message.text, this.roomId);
                                 }
                             }).catch(error => {
                             console.log(error);
@@ -119,15 +116,16 @@ import { mapMutations, mapState } from 'vuex'
                 this.$store.commit('stopAdminMessage');
             },
 
-            confirmWords(lastWord, submitWord){
+            confirmWords(lastWord, submitWord, roomId){
                 console.log(lastWord, submitWord);
-                axios.get('/confirmWords/'+lastWord +'/' + submitWord, {
+                axios.post('/confirmWords/'+lastWord +'/' + submitWord, {
                                 lastWord: lastWord,
                                 submitWord: submitWord,
+                                roomId: roomId,
+                                player: this.currentUser
                             }).then(res => {
                                 if(res.data.confirm == 1){
-                                    this.success(res.data.currentUser, submitWord);
-                                    console.log('suc', lastWord, submitWord, this.round);
+                                    //this.success(res.data.currentUser, submitWord);
                                 }
                             }).catch(error => {
                             console.log(error);
@@ -147,7 +145,7 @@ import { mapMutations, mapState } from 'vuex'
             isAdmin:function(){
                 if(this.isAdmin == true){
                     axios.post('/api/messages', {
-                                text: '~~님이 들어오셨습니다 메시지',
+                                text: '~~님이 들어오셨습니다',
                                 to: this.roomId,
                                 from: 1
                             }).then(res => {

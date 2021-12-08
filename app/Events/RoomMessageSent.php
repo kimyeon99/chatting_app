@@ -15,7 +15,7 @@ use SebastianBergmann\Environment\Console;
 class RoomMessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $room, $isGame, $randomWord;
+    public $room, $isGame, $randomWord, $check, $player;
 
 
     /**
@@ -23,11 +23,13 @@ class RoomMessageSent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Room $room, $isGame, $randomWord)
+    public function __construct(Room $room, $isGame, $randomWord, $check, $player)
     {
         $this->room = $room;
         $this->isGame = $isGame;
         $this->randomWord = $randomWord;
+        $this->check = $check;
+        $this->player = $player;
     }
 
     /**
@@ -38,7 +40,7 @@ class RoomMessageSent implements ShouldBroadcast
     {
         //presense 채널로 바꾸기
         // return new PrivateChannel('chat.'.$this->room->id);
-        return new PresenceChannel('chat.'.$this->room->id);
+        return new PresenceChannel('chat.' . $this->room->id);
 
         # 'chat.'.$this->room->id 이라는 채널에 브로드캐스팅을 한다. 여기서 뭘 넘겨주느냐는 문서에서 넘겨주는 메소드를 보고 넘겨라
         # 넘기면 이 데이터와 함께 저 채널에 브로드캐스트를 한다. 
