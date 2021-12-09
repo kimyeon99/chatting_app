@@ -72,7 +72,10 @@ export default new Vuex.Store({
     
     setRound(state, round){
       state.round = round;
-    }
+
+    },
+
+    
 
 
     

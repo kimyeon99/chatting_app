@@ -45,6 +45,7 @@ Route::get('/getRandomWord', [RoomController::class, 'getRandomWord'])->name('ro
 Route::post('/confirmWords/{lastWord}/{submitWord}', [RoomController::class, 'confirmWords'])->name('room.confirmWord');
 Route::post('/room/{id}/gameStart', [RoomController::class, 'gameStart'])->name('room.gameStart');
 Route::get('/getProfile/{id}', [RoomController::class, 'getProfile'])->name('room.getProfile');
+Route::get('/setRound/{id}', [RoomController::class, 'setRound'])->name('room.setRound');
 
 Route::get('/user', [UserController::class, 'profile']);
 

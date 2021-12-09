@@ -1,24 +1,32 @@
 <template>
 <div v-if="isGame">
-<div class="flex items-center justify-center p-10" style="height: 460px;">
-    <p>남은 라운드:</p>
-    <p>{{round}}</p>
-	<div class="grid grid-cols-1 gap-2 max-w" >
-		<div class="flex flex-col bg-white-200 rounded-lg p-4 m-2
-            hover:bg-blue-500 hover:text-gray-100 focus:border-4 focus:border-blue-300 cursor-pointer">
-            <p>제시된 단어</p><br>
-			<div class="flex flex-col mt-4">
-				<h1 class="text-xl font-bold">
+
+<div class="flex items-center justify-center p-10" style="height: 400px;">
+    <div style="border : black 2px solid; width: 40%; height: 30%;
+        text-align: center;
+      border-radius: 10px; 
+      padding: 20px;">
+      <div>
+        <p>남은 라운드:&nbsp; &nbsp;{{round}}</p>
+      </div>
+        <div>
+        <p>제시된 단어</p>      				
+        <h1 class="text-xl font-bold">
                     {{ lastWord.word }}
                 </h1>
-			</div>
-		</div>
-	</div>
+        </div>
+     
+       
+          
+   
+    </div>
+  
 </div>
 
 <div class="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-2 max-w">
-    <div class="flex flex-col bg-gray-200 rounded-lg p-4 m-2
+    <div class="flex flex-col bg-gray-200 rounded-lg p-4 
                 hover:bg-blue-500 hover:text-gray-100 focus:border-4 focus:border-blue-300 cursor-pointer"
+                style="margin: 0 0 20px 50px ;"
                 v-for="roomUser in roomUsers" :key="roomUser.id"
                 >
                 <div class="flex flex-col items-start mt-4">
@@ -28,13 +36,29 @@
                     <h1 class="text-xl font-bold" v-if="roomUser.id == player4">{{ Player4Score }}</h1>
                     
                     <h1 class="text-xl font-bold">{{roomUser.name}}</h1>
+                    <img class="rounded-full h-12 w-12" :src="getProfile(roomUser.image)" alt="Logo"/>
                 </div>
             </div>
     </div>
 </div>
 
 
+
+
 <div v-else>
+
+        <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-body">
+            <div v-if="player1 != 0">{{ resultPlayer1Score }}</div>
+            <div v-if="player2 != 0">{{ resultPlayer2Score }}</div>
+            <div v-if="player3 != 0">{{ resultPlayer3Score }}</div>
+            <div v-if="player4 != 0">{{ resultPlayer4Score }}</div>
+            </div>
+        <div class="modal-footer">
+            <button @click="setResultFalse">확인</button>
+        </div>
+        </div>
+
         <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
   
             @click="goBack">    
@@ -59,6 +83,7 @@
         <room-user-list
             v-bind:room-users="roomUsers"
             :room="room"
+            :host="host"
         ></room-user-list>
     <!--프로필-->
 
@@ -113,6 +138,12 @@ export default {
             player2:0,
             player3:0,
             player4:0,
+            host:0,
+            result:false,
+            resultPlayer1Score:0,
+            resultPlayer2Score:0,
+            resultPlayer3Score:0,
+            resultPlayer4Score:0,
 
         }
     },
@@ -168,7 +199,6 @@ export default {
             },
 
             goBack(){
-                this.$router.go(-1);
             },
 
             gameStart(){
@@ -205,8 +235,18 @@ export default {
             setRound(round){
                 this.$store.commit('setRound', round);
             },
-
-
+            getProfile(url){
+              url =  '/' +'storage/images/profiles/' + url;
+              console.log(url);
+              return url;
+          },
+          setResultFalse(){
+              this.result = false;
+          },
+                createModal(){
+          //this.form.reset();
+        $("#modal2").modal("show"); // modal.("hide")
+      },
 
         },
     created() {
@@ -241,22 +281,30 @@ export default {
             this.channel
             .here((users) => {
                 this.roomUsers = users;
+                this.host = users[0].id;
+
                 this.player1 = users[0].id;
-                this.player2 = users[1].id;
-                this.player3 = users[2].id;
-                this.player4 = users[3].id;
-                console.log('!@#!1',this.roomUsers);
+                if(users[1]) this.player2 = users[1].id;
+                if(users[2]) this.player3 = users[2].id;
+                if(users[3]) this.player4 = users[3].id;
+                 console.log('!@#!1',this.roomUsers);
+                 
             })
             .joining((user) => {
                 console.log(`${user.name} 님이 참가`);
                 this.roomUsers.push(user);
-                this.adminMessage();
-                this.adminMessage(`${user.name} 님이 참가`);
+                
+                if(this.roomUsers.length == 2) this.player2 = user.id;
+                if(this.roomUsers.length == 3) this.player3 = user.id;
+                if(this.roomUsers.length == 4) this.player4 = user.id;
+
+                //this.adminMessage();
+                //this.adminMessage(`${user.name} 님이 참가`);
             }).leaving((user) => {
                 console.log(`${user.name} 님이 나감`);
-                this.adminMessage(`${user.name} 님이 나감`);
+                //this.adminMessage(`${user.name} 님이 나감`);
                 for(let i = 0; i < this.roomUsers.length; i++) {
-                        if(this.roomUsers[i] === user)  {
+                        if(this.roomUsers[i].id === user.id)  {
                             this.roomUsers.splice(i, 1);
                             break;
                         }
@@ -273,16 +321,30 @@ export default {
                         this.setRound(e.room.round);
                         console.log('eeee',e.player);
                         this.setLastWord(e.randomWord[0]);
-                        if(e.player == this.player1) this.Player1Score += 100;
-                        else if(e.player == this.player2) this.Player2Score += 100;
-                        else if(e.player == this.player3) this.Player3Score += 100;
-                        else if(e.player == this.player4) this.Player4Score += 100;
+                        if(e.player == this.player1) this.Player1Score += 50;
+                        else if(e.player == this.player2) this.Player2Score += 50;
+                        else if(e.player == this.player3) this.Player3Score += 50;
+                        else if(e.player == this.player4) this.Player4Score += 50;
                     }
                 }else{
-                    this.isGameFalse();
-                    this.setRound(5);
+                    // 결과창 생성
+                    this.result = true;
+                    //this.createModal();
+                    this.resultPlayer1Score = this.Player1Score;
+                    this.resultPlayer2Score = this.Player2Score;
+                    this.resultPlayer3Score = this.Player3Score;
+                    this.resultPlayer4Score = this.Player4Score;
+
+                        this.isGameFalse();
+                        this.setRound(5);
+
+                        this.Player1Score = 0;
+                        this.Player2Score = 0;
+                        this.Player3Score = 0;
+                        this.Player4Score = 0;
+
+
                 }
-                
             });
 
 
@@ -306,7 +368,7 @@ export default {
             
         
         
-    }
+    },
 }
 </script>
 

@@ -27,7 +27,7 @@ Broadcast::channel('chat.{roomId}', function ($user) {
     // return $user->isRoom == $room->id;
     //  return auth()->check();
     if (auth()->check()) {
-        return ['id' => $user->id, 'name' => $user->name];
+        return ['id' => $user->id, 'name' => $user->name, 'image' => $user->profile_image];
         //         return $user->toArray();
     }
     //return auth()->check();

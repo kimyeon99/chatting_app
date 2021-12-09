@@ -151,6 +151,7 @@ class RoomController extends Controller
     {
         $room = Room::find($id);
         $room->isGame = false;
+        $room->round = 5;
         $room->save();
 
         RoomMessageSent::dispatch($room, false, null, 0, 0);
@@ -159,6 +160,15 @@ class RoomController extends Controller
     public function getProfile($id)
     {
         $user = User::find($id);
-        return 'http://localhost:8000' . $user->profileImagePath();
+        return $user->profileImagePath();
+    }
+
+    public function setRound($id)
+    {
+        $room = Room::find($id);
+        $room->round = 5;
+        $room->save();
+
+        return $room;
     }
 }

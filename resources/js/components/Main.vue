@@ -32,13 +32,11 @@
 
 <script>
     import RoomList from './RoomList.vue';
-    import Profile from './Profile.vue';
     import Chat from './Chat.vue';
 
     export default {
         components: {
             RoomList,
-            Profile,
             Chat
         },
         props: {

@@ -14,7 +14,7 @@
     style="width: 1000px;    display: flex;
     flex-wrap: wrap;">
 		<!-- Tile 1 -->
-		<div v-for="room in rooms" :key="room.id" class="flex flex-col bg-gray-200 rounded-lg p-4 m-2
+		<div v-for="room in rooms" :key="room.id" class="flex flex-col bg-gray-200 w-50 rounded-lg p-4 m-2
             hover:bg-blue-500 hover:text-gray-100 focus:border-4 focus:border-blue-300 cursor-pointer"
                 @click="goRoom(room.id)"
             >

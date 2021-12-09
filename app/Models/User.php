@@ -61,4 +61,11 @@ class User extends Authenticatable
 
         return $path . $profileImageFile;
     }
+
+    public function profileImageName()
+    {
+        $profileImageFile = $this->profile_image ?? 'no_profile_image.png';
+
+        return $profileImageFile;
+    }
 }

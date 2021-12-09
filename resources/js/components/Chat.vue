@@ -68,7 +68,7 @@ import { mapMutations, mapState } from 'vuex'
 
             window.Echo.private('chat').listen('MessageSent',e =>{
                 // 보내는 사람과 받는 사람이 일치할 경우에만 메세지 push
-                
+                console.log('MessageSent', e);
                 if(e.message.to == this.roomId){
                     this.messages.push(e.message);
                 }
@@ -99,7 +99,8 @@ import { mapMutations, mapState } from 'vuex'
                                 to: this.roomId,
                                 from: this.currentUser,
                             }).then(res => {
-                                this.messages.push(res.data.message);
+                                console.log('submit', res);
+                                //this.messages.push(res.data.message);
                                 if(this.isGame){
                                     console.log('!!!!@#!@#',this.lastWord.word, res.data.message.text);
                                     this.confirmWords(this.lastWord.word, res.data.message.text, this.roomId);
@@ -124,9 +125,7 @@ import { mapMutations, mapState } from 'vuex'
                                 roomId: roomId,
                                 player: this.currentUser
                             }).then(res => {
-                                if(res.data.confirm == 1){
-                                    //this.success(res.data.currentUser, submitWord);
-                                }
+                                console.log('confirmWords', res);
                             }).catch(error => {
                             console.log(error);
                         });
@@ -142,20 +141,20 @@ import { mapMutations, mapState } from 'vuex'
 
         },
         watch:{
-            isAdmin:function(){
-                if(this.isAdmin == true){
-                    axios.post('/api/messages', {
-                                text: '~~님이 들어오셨습니다',
-                                to: this.roomId,
-                                from: 1
-                            }).then(res => {
-                                this.messages.push(res.data.message);
-                            }).catch(error => {
-                            console.log(error);
-                        })
-                }
-                this.stopAdminMessage();
-            }
+            // isAdmin:function(){
+            //     if(this.isAdmin == true){
+            //         axios.post('/api/messages', {
+            //                     text: '~~님이 들어오셨습니다',
+            //                     to: this.roomId,
+            //                     from: 1
+            //                 }).then(res => {
+            //                     this.messages.push(res.data.message);
+            //                 }).catch(error => {
+            //                 console.log(error);
+            //             })
+            //     }
+            //     this.stopAdminMessage();
+            // }
         }
     }
 </script>

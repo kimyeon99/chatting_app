@@ -5,10 +5,10 @@
   <div v-for="roomUser in roomUsers" :key="roomUser.id"
   class="flex justify-between items-center h-16 p-4 my-6  rounded-lg border border-gray-100 shadow-md">
     <div class="flex items-center">
-      <img class="rounded-full h-12 w-12" :src="getProfile(roomUser.id)" alt="Logo" />
+      <img class="rounded-full h-12 w-12" :src="getProfile(roomUser.image)" alt="Logo"/>
     <div class="ml-2">
       <div class="text-sm font-semibold text-gray-600">{{roomUser.name}}</div>
-      <div class="text-sm font-light text-gray-500" v-if="roomUser[0]">방장</div>
+      <div class="text-sm font-light text-gray-500" v-if="roomUser.id == host">방장</div>
     </div>
     </div>
     <div>
@@ -38,6 +38,10 @@
                  type:Object,
                  required: true
              },
+             host:{
+                  type:Number,
+                 required: true
+             }
             //  Player1Score:{
             //      tpye:Number,
             //      required: true
@@ -62,16 +66,21 @@
         data() {
             return {
                 users: [],
+                profileUrlP1: '',
+                profileUrlP2: '',
+                profileUrlP3: '',
+                profileUrlP4: '',
             }
         },
-
-        methods: {
-          getProfile(id){
-                axios.get('/getProfile/' + id).then(res => {
-                  console.log('getProfile', res);
-               })
+        methods:{
+            getProfile(url){
+              url =  '/' +'storage/images/profiles/' + url;
+              console.log(url);
+              return url;
           },
         }
+
+
     }
 </script>
 

@@ -1,8 +1,8 @@
 <template>
     <div class="flex-1 overflow-y-scroll" v-chat-scroll>
         <ChatMessage
-        v-for="message in messages" 
-        :key="message.id" :message="message"></ChatMessage>
+        v-for="(message, index) in messages" 
+        :key="index" :message="message"></ChatMessage>
         
     </div>
 </template>
@@ -23,6 +23,10 @@ export default {
             type: Array,
             required: true
         }
+    }
+    ,
+    created(){
+        console.log('messages', this.messages);
     }
 }
 </script>

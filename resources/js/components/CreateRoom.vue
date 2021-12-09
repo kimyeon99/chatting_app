@@ -2,12 +2,12 @@
 <div>
     <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 
     border-b-4 border-blue-700 hover:border-blue-500 rounded"
-    style="position: absolute; right: 325px; top: 250px;"
+    
     @click="createModal">                
         방만들기Vue
     </button>
 
-
+<!-- style="position: absolute; right: 325px; top: 250px;" -->
 
 <!-- 모달 -->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
