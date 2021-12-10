@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+
+
 
 use App\Models\Room;
 
@@ -26,9 +30,10 @@ use App\Models\Room;
 //     return view('welcome');
 // });
 
+
 Route::get('/', function () {
     return view('main', ['rooms' => Room::all()]);
-})->middleware(['auth']);
+})->middleware(['auth'])->name('main');
 
 // Route::get('/{any?}', function () {
 //     return view('main', ['rooms' => Room::all()]);
@@ -49,6 +54,8 @@ Route::get('/setRound/{id}', [RoomController::class, 'setRound'])->name('room.se
 
 Route::get('/user', [UserController::class, 'profile']);
 
+Route::get('/home', [HomeController::class, 'index']);
 
+Route::resource('/posts', PostController::class);
 
 require __DIR__ . '/auth.php';

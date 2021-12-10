@@ -154,7 +154,7 @@ class RoomController extends Controller
         $room->round = 5;
         $room->save();
 
-        RoomMessageSent::dispatch($room, false, null, 0, 0);
+        RoomMessageSent::dispatch($room, false, null, 2, 0);
     }
 
     public function getProfile($id)

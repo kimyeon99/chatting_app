@@ -2,23 +2,25 @@
 <div>
 <div class="tab_content" style="margin-top: 50px;" >
     <input type="radio" name="tabmenu" id="ta01" checked>
-    <label for="ta01" style="margin-left: 150px; background-color: red;">컨텐츠 탭 버튼1</label>
+    <label for="ta01" style="margin-left: 150px; background-color: gray;">BTN</label>
     <input type="radio" name="tabmenu" id="ta02" >
-<label for="ta02" style="background-color: orange;">컨텐츠 탭 버튼2</label>
-    <input type="radio" name="tabmenu" id="ta03" >
-    <label for="ta03" style="background-color: yellow;">컨텐츠 탭 버튼3</label>
+<label for="ta02" style="background-color: gray;">BTN2</label>
+    <!--<input type="radio" name="tabmenu" id="ta03" >
+    <label for="ta03" style="background-color: gray;">BTN3</label>-->
 
     <div class="conbox con1" id="backbox" >
         <div>
         <router-view :rooms="rooms" :current-user="currentUser"></router-view>
         </div>
-        <div class="flex-1" style="border: 3px solid gray; padding: 20px; margin-left: 50px; width: 1100px;
+        <div class="flex-1" style="border: 3px solid gray; padding: 20px; margin-left: 50px; width: 930px;
           border-radius: 15px; "> 
             <!-- <the-profile :current-user="currentUser"></the-profile> -->
             <chat-component :current-user="currentUser"></chat-component>
         </div>
     </div>
-    <div class="conbox con2" id="backbox"></div>
+    <div class="conbox con2" id="backbox">
+        <the-post></the-post>
+    </div>
     <div class="conbox con3" id="backbox">컨텐츠 내용03</div>
 
 
@@ -54,12 +56,9 @@
 <style>
     /* 끄투배경 */
     body{
-        min-width: 1500px;
-        max-width: 1500px;
-    }
-    html{
-        min-width: 1500px;
-        max-width: 1500px;
+        min-width: 1300px;
+        max-width: 1300px;
+        margin:0 auto;
     }
     input[type="radio"] {display:none;}
     input[type="radio"] + label {

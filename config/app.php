@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Seoul',
 
     /*
     |--------------------------------------------------------------------------
@@ -182,7 +182,7 @@ return [
 
 
 
-        
+
         App\Providers\RouteServiceProvider::class,
 
     ],

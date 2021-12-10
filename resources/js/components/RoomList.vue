@@ -11,7 +11,7 @@
             </button> -->
 
 	<div class="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-2 max-w"
-    style="width: 1000px;    display: flex;
+    style="width: 400px;    display: flex;
     flex-wrap: wrap;">
 		<!-- Tile 1 -->
 		<div v-for="room in rooms" :key="room.id" class="flex flex-col bg-gray-200 w-50 rounded-lg p-4 m-2

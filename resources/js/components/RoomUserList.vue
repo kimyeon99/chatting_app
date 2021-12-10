@@ -74,6 +74,11 @@
         },
         methods:{
             getProfile(url){
+                 if(url === null){
+                    url =  '/' +'storage/images/profiles/' + 'no_profile_image.png';
+                    console.log(url)
+                    return url;
+                }
               url =  '/' +'storage/images/profiles/' + url;
               console.log(url);
               return url;
