@@ -30,12 +30,27 @@ class RoomController extends Controller
         // $user = Auth::user();
         // $user->inRoom = $id;
         // $user->save();
+        $this->setUserInRoom($id);
 
         #이벤트를 발생
         RoomMessageSent::dispatch($room, false, null, 0, 0);
         //broadcast(new RoomMessageSent($room))->toOthers();
 
         // return view('Room', ['room' => $room, 'roomId' => $id, 'rooms'=>$room::all()]);
+        return $room;
+    }
+
+    public function setUserInRoom($id)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->inRoom = $id;
+        $user->save();
+    }
+
+    public function getPlayerList($id)
+    {
+        $room = Room::find($id)->with('users')->get();
+        dd($room);
         return $room;
     }
 
@@ -170,5 +185,14 @@ class RoomController extends Controller
         $room->save();
 
         return $room;
+    }
+
+    public function getScore($id)
+    {
+        if ($id != 0) {
+            $player1 = User::where('inRoom', $id)->get();
+            $player2 = User::where('inRoom', $id)->get();
+            $player3 = User::where('inRoom', $id)->get();
+        }
     }
 }

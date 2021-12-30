@@ -43,6 +43,9 @@ Route::get('/', function () {
 Route::get('/room/index', [RoomController::class, 'index'])->name('room.index');
 Route::post('/room/store', [RoomController::class, 'store'])->name('room.store');
 Route::get('/room/{id}', [RoomController::class, 'show'])->name('room.show');
+Route::post('/room/{id}', [RoomController::class, 'setUserInRoom'])->name('room.setUserInRoom');
+Route::get('/room/{id}/score', [RoomController::class, 'getScore'])->name('room.getScore');
+Route::get('/room/{id}/list', [RoomController::class, 'getPlayerList'])->name('room.getPlayerList');
 Route::get('/room/leave', [RoomController::class, 'leaveRoom'])->name('room.leaveRoom');
 
 // in Game

@@ -20,7 +20,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('profile_image')->nullable();
             $table->string('password');
-            $table->integer('InRoom')->default(0);
+            //$table->integer('InRoom')->default(0);
+            //InRoom을 foreignId로 대체함
+            $table->foreignId('room_id')->constrained()->onDelete('cascade');
             $table->integer('score')->default(0);
             $table->boolean('isHost')->default(false);
             $table->rememberToken();

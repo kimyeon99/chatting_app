@@ -1,7 +1,7 @@
 <template>
 <div v-if="isGame">
 <div class="flex items-center justify-center p-10" style="height: 350px;">
-        <p>남은 라운드: {{ round}}</p><br>
+        <p>남은 라운드: {{round}}</p><br>
 
     <div style="border : black 2px solid; width: 20%; height: 45%;
         text-align: center;
@@ -15,35 +15,23 @@
                     {{ lastWord.word }}
             </h1>
         </div>
-     
-       
-          
-   
     </div>
-  
 </div>
 
 <div class="grid xl:grid-cols-4 md:grid-cols-3 grid-cols-3 gap-2 max-w">
     <div class="flex flex-col bg-gray-200 rounded-lg p-4 
                 hover:bg-blue-500 hover:text-gray-100 focus:border-4 focus:border-blue-300 cursor-pointer"
                 style="margin: 0 0 20px 50px ;width: 250px;"
-                v-for="roomUser in roomUsers" :key="roomUser.id">
+                v-for="roomUser in roomUsers" :key="roomUser.player">
                 <div class="flex flex-col items-start mt-4"
                 >
-
                     <img class="rounded-full h-20 w-20" :src="getProfile(roomUser.image)" alt="Logo"/>
                     <h1 class="text-xl font-bold">{{roomUser.name}}</h1>
-                    
-                    <h1 class="text-xl font-bold" v-if="roomUser.id == player1">{{ Player1Score }}</h1>
-                    <h1 class="text-xl font-bold" v-if="roomUser.id == player2">{{ Player2Score }}</h1>
-                    <h1 class="text-xl font-bold" v-if="roomUser.id == player3">{{ Player3Score }}</h1>
-                    <h1 class="text-xl font-bold" v-if="roomUser.id == player4">{{ Player4Score }}</h1>
-                    
+                    <h1 class="text-xl font-bold">{{ roomUser.score }}</h1>
                 </div>
             </div>
     </div>
 </div>
-
 
 
 
@@ -84,7 +72,7 @@
                 </div>
             </div>
             </div>
-            <div class="p-6 " v-if="currentUser == host">
+            <div class="p-6 " >
                 <button @click="gameStart" class="p-4 bg-green-400 hover:bg-green-500 w-full rounded-lg shadow text-xl font-medium uppercase text-white"
                 >게임 시작</button>
             </div>
@@ -255,7 +243,18 @@ export default {
                 left top
                 no-repeat`
             });
-    },
+            },
+        getScore(){
+            
+        },
+        getPlayerList(){
+            axios.get('/room/' + this.room.id + '/list',{
+                    id: this.room.id,
+                }).then(res => {
+                    //this.roomUsers = res.data;
+                    dd(res.data);
+            });
+        }
     },
     created() {
         //만약에 axios.get이 느려진다면 loading 화면이 필요함 
@@ -288,28 +287,37 @@ export default {
                 
             this.channel
             .here((users) => {
-                this.roomUsers = users;
+                // this.roomUsers = users;
 
-                this.player1 = users[0].id;
-                if(users[1]) this.player2 = users[1].id;
-                if(users[2]) this.player3 = users[2].id;
-                if(users[3]) this.player4 = users[3].id;
+                // this.player1 = users[0].id;
+                // if(users[1]) this.player2 = users[1].id;
+                // if(users[2]) this.player3 = users[2].id;
+                // if(users[3]) this.player4 = users[3].id;
 
-                this.host = this.player1;
-                 console.log('!@#!1',this.roomUsers);
+                // this.host = this.player1;
+                //  console.log('!@#!1',this.roomUsers);
+               this.getPlayerList();
+                
+                
                  
             })
             .joining((user) => {
                 console.log(`${user.name} 님이 참가`);
                 
                 this.roomUsers.push(user);
+                console.log('roomUsersLength...', this.roomUsers.length-1);
                 
-                if(this.roomUsers.length == 2) this.player2 = user.id;
-                if(this.roomUsers.length == 3) this.player3 = user.id;
-                if(this.roomUsers.length == 4) this.player4 = user.id;
+                this.roomUsers[this.roomUsers.length-1].player = this.roomUsers.length;
+                //this.player[this.roomUsers.length] = user.id;
+
+                // if(this.roomUsers.length == 2) this.player2 = user.id;
+                // if(this.roomUsers.length == 3) this.player3 = user.id;
+                // if(this.roomUsers.length == 4) this.player4 = user.id;
 
                 //this.adminMessage();
                 //this.adminMessage(`${user.name} 님이 참가`);
+                console.log('roomUsers...', this.roomUsers);
+
             }).leaving((user) => {
                 console.log(`${user.name} 님이 나감`);
                 //this.adminMessage(`${user.name} 님이 나감`);
@@ -331,10 +339,12 @@ export default {
                         this.setRound(e.room.round);
                         console.log('eeee',e.player);
                         this.setLastWord(e.randomWord[0]);
-                        if(e.player == this.player1) this.Player1Score += 50;
-                        else if(e.player == this.player2) this.Player2Score += 50;
-                        else if(e.player == this.player3) this.Player3Score += 50;
-                        else if(e.player == this.player4) this.Player4Score += 50;
+
+                        for(let i = 1; i<= this.roomUsers.length; i++){
+                            if(e.player == this.roomUsers[i].player) this.roomUsers[e.player-1].score += 50;
+                        }
+                        
+                        
                     }
                 }else{
                     // 결과창 생성
